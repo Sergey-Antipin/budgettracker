@@ -3,6 +3,7 @@ package com.example.budgettracker.model;
 import org.joda.money.Money;
 
 import java.util.Currency;
+import java.util.List;
 
 public interface Account {
 
@@ -13,5 +14,7 @@ public interface Account {
     Money getBalance();
 
     Currency getCurrency();
+
+    List<Operation> getOperations();
 
 }

@@ -6,10 +6,20 @@ import java.time.LocalDate;
 
 public class Withdraw extends AbstractOperation {
 
+    private ExpenseCategory expenseCategory;
     public Withdraw() {}
 
-    public Withdraw(Money sum, LocalDate date, String description, Account account) {
+    public Withdraw(Money sum, LocalDate date, String description, Account account, ExpenseCategory expenseCategory) {
         super(sum, date, description, account);
+        this.expenseCategory = expenseCategory;
+    }
+
+    public ExpenseCategory getExpenseCategory() {
+        return expenseCategory;
+    }
+
+    public void setExpenseCategory(ExpenseCategory expenseCategory) {
+        this.expenseCategory = expenseCategory;
     }
 
     @Override
@@ -20,7 +30,8 @@ public class Withdraw extends AbstractOperation {
     @Override
     public String toString() {
         return "Withdraw{" +
-                "sum=" + sum +
+                "expenseCategory=" + expenseCategory +
+                ", sum=" + sum +
                 ", date=" + date +
                 ", description='" + description + '\'' +
                 '}';

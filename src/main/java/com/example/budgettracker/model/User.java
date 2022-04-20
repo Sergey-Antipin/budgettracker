@@ -1,6 +1,6 @@
 package com.example.budgettracker.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -8,7 +8,7 @@ public class User {
     private String email;
     private Family family;
     private Set<Role> roles;
-    private Date registrationDate;
+    private LocalDate registrationDate;
     private List<Account> accounts;
     private Set<SpendingLimit> limits;
 
@@ -17,7 +17,7 @@ public class User {
     public User(String email,
                 Family family,
                 Set<Role> roles,
-                Date registrationDate,
+                LocalDate registrationDate,
                 List<Account> accounts,
                 Set<SpendingLimit> limits) {
         this.email = email;
@@ -52,11 +52,11 @@ public class User {
         this.roles = roles;
     }
 
-    public Date getRegistrationDate() {
+    public LocalDate getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(Date registrationDate) {
+    public void setRegistrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
     }
 
