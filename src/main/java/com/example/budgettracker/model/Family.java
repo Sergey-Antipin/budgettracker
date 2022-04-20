@@ -5,6 +5,7 @@ import java.util.Set;
 public class Family {
 
     private Set<User> familyMembers;
+    public Family() {}
 
     public Family(Set<User> familyMembers) {
         this.familyMembers = familyMembers;

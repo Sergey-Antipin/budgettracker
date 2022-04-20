@@ -92,6 +92,14 @@ public class User {
         return accounts.remove(account);
     }
 
+    public boolean addRole(Role role) {
+        return roles.add(role);
+    }
+
+    public boolean removeRole(Role role) {
+        return roles.remove(role);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

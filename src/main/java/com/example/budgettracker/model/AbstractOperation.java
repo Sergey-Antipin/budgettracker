@@ -2,20 +2,20 @@ package com.example.budgettracker.model;
 
 import org.joda.money.Money;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public abstract class AbstractOperation implements Operation {
 
     protected Money sum;
-    protected LocalDateTime dateTime;
+    protected LocalDate date;
     protected String description;
     protected Account account;
 
     public AbstractOperation() {}
 
-    public AbstractOperation(Money sum, LocalDateTime dateTime, String description, Account account) {
+    public AbstractOperation(Money sum, LocalDate date, String description, Account account) {
         this.sum = sum;
-        this.dateTime = dateTime;
+        this.date = date;
         this.description = description;
         this.account = account;
     }
@@ -30,12 +30,12 @@ public abstract class AbstractOperation implements Operation {
         this.sum = sum;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public String getDescription() {

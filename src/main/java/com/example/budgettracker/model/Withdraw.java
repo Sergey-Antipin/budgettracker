@@ -2,14 +2,14 @@ package com.example.budgettracker.model;
 
 import org.joda.money.Money;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class Withdraw extends AbstractOperation {
 
     public Withdraw() {}
 
-    public Withdraw(Money sum, LocalDateTime dateTime, String description, Account account) {
-        super(sum, dateTime, description, account);
+    public Withdraw(Money sum, LocalDate date, String description, Account account) {
+        super(sum, date, description, account);
     }
 
     @Override
@@ -21,7 +21,7 @@ public class Withdraw extends AbstractOperation {
     public String toString() {
         return "Withdraw{" +
                 "sum=" + sum +
-                ", dateTime=" + dateTime +
+                ", date=" + date +
                 ", description='" + description + '\'' +
                 '}';
     }
