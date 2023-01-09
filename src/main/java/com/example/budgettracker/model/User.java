@@ -9,23 +9,23 @@ public class User {
     private Family family;
     private Set<Role> roles;
     private LocalDate registrationDate;
-    private List<Account> accounts;
-    private Set<SpendingLimit> limits;
 
-    public User() {}
+    private List<Account> accounts;
+
+    public User() {
+    }
 
     public User(String email,
                 Family family,
                 Set<Role> roles,
                 LocalDate registrationDate,
                 List<Account> accounts,
-                Set<SpendingLimit> limits) {
+                Set<ExpenseLimit> expenseLimits) {
         this.email = email;
         this.family = family;
         this.roles = roles;
         this.registrationDate = registrationDate;
         this.accounts = accounts;
-        this.limits = limits;
     }
 
     public String getEmail() {
@@ -68,22 +68,6 @@ public class User {
         this.accounts = accounts;
     }
 
-    public Set<SpendingLimit> getLimits() {
-        return limits;
-    }
-
-    public void setLimits(Set<SpendingLimit> limits) {
-        this.limits = limits;
-    }
-
-    public boolean addLimit(SpendingLimit limit) {
-        return limits.add(limit);
-    }
-
-    public boolean removeLimit(SpendingLimit limit) {
-        return limits.remove(limit);
-    }
-
     public boolean addAccount(Account account) {
         return accounts.add(account);
     }
@@ -91,6 +75,8 @@ public class User {
     public boolean removeAccount(Account account) {
         return accounts.remove(account);
     }
+
+
 
     public boolean addRole(Role role) {
         return roles.add(role);

@@ -4,23 +4,19 @@ import org.joda.money.Money;
 
 import java.time.LocalDate;
 
-public class Recharge extends AbstractOperation {
+public class Recharge extends Operation {
 
-    public Recharge() {}
-
-    public Recharge(Money sum, LocalDate date, String description, Account account) {
-        super(sum, date, description, account);
+    public Recharge() {
     }
 
-    @Override
-    public Money process() {
-        return account.getBalance().plus(sum);
+    public Recharge(Money amount, LocalDate date, String description) {
+        super(amount, date, description);
     }
 
     @Override
     public String toString() {
         return "Recharge{" +
-                "sum=" + sum +
+                "amount=" + amount +
                 ", date=" + date +
                 ", description='" + description + '\'' +
                 '}';

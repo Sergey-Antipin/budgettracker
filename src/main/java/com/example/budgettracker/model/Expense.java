@@ -4,13 +4,15 @@ import org.joda.money.Money;
 
 import java.time.LocalDate;
 
-public class Withdraw extends AbstractOperation {
+public class Expense extends Operation {
 
     private ExpenseCategory expenseCategory;
-    public Withdraw() {}
 
-    public Withdraw(Money sum, LocalDate date, String description, Account account, ExpenseCategory expenseCategory) {
-        super(sum, date, description, account);
+    public Expense() {
+    }
+
+    public Expense(Money amount, LocalDate date, String description, ExpenseCategory expenseCategory) {
+        super(amount, date, description);
         this.expenseCategory = expenseCategory;
     }
 
@@ -23,15 +25,10 @@ public class Withdraw extends AbstractOperation {
     }
 
     @Override
-    public Money process() {
-        return account.getBalance().minus(sum);
-    }
-
-    @Override
     public String toString() {
-        return "Withdraw{" +
+        return "Expense{" +
                 "expenseCategory=" + expenseCategory +
-                ", sum=" + sum +
+                ", amount=" + amount +
                 ", date=" + date +
                 ", description='" + description + '\'' +
                 '}';

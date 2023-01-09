@@ -5,7 +5,7 @@ import org.joda.money.Money;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class SpendingLimit {
+public class ExpenseLimit {
 
     private LocalDate startDate;
     private LocalDate endDate;
@@ -13,10 +13,10 @@ public class SpendingLimit {
     private Money limit;
     private User user;
 
-    public SpendingLimit() {
+    public ExpenseLimit() {
     }
 
-    public SpendingLimit(LocalDate startDate, LocalDate endDate, ExpenseCategory expenseCategory, Money limit, User user) {
+    public ExpenseLimit(LocalDate startDate, LocalDate endDate, ExpenseCategory expenseCategory, Money limit, User user) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.expenseCategory = expenseCategory;
@@ -68,20 +68,21 @@ public class SpendingLimit {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SpendingLimit that = (SpendingLimit) o;
+        ExpenseLimit that = (ExpenseLimit) o;
         return startDate.equals(that.startDate) && endDate.equals(that.endDate)
                 && expenseCategory == that.expenseCategory && limit.equals(that.limit)
                 && user.equals(that.user);
     }
 
+    /* limit is not taken into account */
     @Override
     public int hashCode() {
-        return Objects.hash(startDate, endDate, expenseCategory, limit, user);
+        return Objects.hash(startDate, endDate, expenseCategory, user);
     }
 
     @Override
     public String toString() {
-        return "SpendingLimit{" +
+        return "ExpenseLimit{" +
                 "startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", expenseCategory=" + expenseCategory +

@@ -4,4 +4,5 @@
 /dataSources/
 /dataSources.local.xml
 target
+out
 .idea
