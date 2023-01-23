@@ -4,34 +4,20 @@ import org.joda.money.Money;
 
 import java.util.Currency;
 import java.util.List;
-import java.util.Set;
 
 public class Account {
 
     private Money balance;
     private String description;
-    private User user;
     private List<Operation> operations;
-
-    Set<ExpenseLimit> expenseLimits;
 
     public Account() {
     }
 
-    public Account(Money balance, String description, User user, List<Operation> operations, Set<ExpenseLimit> expenseLimits) {
+    public Account(Money balance, String description, List<Operation> operations) {
         this.balance = balance;
         this.description = description;
-        this.user = user;
         this.operations = operations;
-        this.expenseLimits = expenseLimits;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public boolean addOperation(Operation operation) {
@@ -68,22 +54,6 @@ public class Account {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Set<ExpenseLimit> getExpenseLimits() {
-        return expenseLimits;
-    }
-
-    public void setExpenseLimits(Set<ExpenseLimit> expenseLimits) {
-        this.expenseLimits = expenseLimits;
-    }
-
-    public boolean addLimit(ExpenseLimit limit) {
-        return expenseLimits.add(limit);
-    }
-
-    public boolean removeLimit(ExpenseLimit limit) {
-        return expenseLimits.remove(limit);
     }
 
     @Override

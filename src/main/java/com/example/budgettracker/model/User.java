@@ -1,31 +1,31 @@
 package com.example.budgettracker.model;
 
+import org.joda.money.Money;
+
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 public class User {
     private String email;
-    private Family family;
-    private Set<Role> roles;
     private LocalDate registrationDate;
-
+    private Family family;
     private List<Account> accounts;
+    private Map<OperationCategory, Money> expenseLimits;
 
     public User() {
     }
 
     public User(String email,
-                Family family,
-                Set<Role> roles,
                 LocalDate registrationDate,
+                Family family,
                 List<Account> accounts,
-                Set<ExpenseLimit> expenseLimits) {
+                Map<OperationCategory, Money> expenseLimits) {
         this.email = email;
-        this.family = family;
-        this.roles = roles;
         this.registrationDate = registrationDate;
+        this.family = family;
         this.accounts = accounts;
+        this.expenseLimits = expenseLimits;
     }
 
     public String getEmail() {
@@ -36,28 +36,20 @@ public class User {
         this.email = email;
     }
 
-    public Family getFamily() {
-        return family;
-    }
-
-    public void setFamily(Family family) {
-        this.family = family;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
     public LocalDate getRegistrationDate() {
         return registrationDate;
     }
 
     public void setRegistrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
+    }
+
+    public Family getFamily() {
+        return family;
+    }
+
+    public void setFamily(Family family) {
+        this.family = family;
     }
 
     public List<Account> getAccounts() {
@@ -76,16 +68,21 @@ public class User {
         return accounts.remove(account);
     }
 
-
-
-    public boolean addRole(Role role) {
-        return roles.add(role);
+    public Map<OperationCategory, Money> getExpenseLimits() {
+        return expenseLimits;
     }
 
-    public boolean removeRole(Role role) {
-        return roles.remove(role);
+    public void setExpenseLimits(Map<OperationCategory, Money> expenseLimits) {
+        this.expenseLimits = expenseLimits;
     }
 
+    public Money addExpenseLimit( OperationCategory category, Money limit) {
+        return expenseLimits.put(category, limit);
+    }
+
+    public Money removeExpenseLimit( OperationCategory category) {
+        return expenseLimits.remove(category);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

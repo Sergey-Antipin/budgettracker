@@ -4,19 +4,18 @@ import org.joda.money.Money;
 
 import java.time.LocalDate;
 
-public abstract class Operation {
+public class Operation {
 
-    protected Money amount;
-    protected LocalDate date;
-    protected String description;
+    private Money amount;
+    private LocalDate date;
+    private String description;
+    private OperationCategory operationCategory;
 
-    public Operation() {
-    }
-
-    public Operation(Money amount, LocalDate date, String description) {
+    public Operation(Money amount, LocalDate date, String description, OperationCategory operationCategory) {
         this.amount = amount;
         this.date = date;
         this.description = description;
+        this.operationCategory = operationCategory;
     }
 
     public Money getAmount() {
@@ -41,5 +40,13 @@ public abstract class Operation {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public OperationCategory getOperationCategory() {
+        return operationCategory;
+    }
+
+    public void setOperationCategory(OperationCategory operationCategory) {
+        this.operationCategory = operationCategory;
     }
 }

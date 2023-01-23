@@ -10,17 +10,17 @@
         <servlet-name>userServlet</servlet-name>
         <servlet-class>com.example.budgettracker.web.UserServlet</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>userServlet</servlet-name>
+        <url-pattern>/users</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>accountServlet</servlet-name>
         <servlet-class>com.example.budgettracker.web.AccountServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>userServlet</servlet-name>
-        <url-pattern>/users</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>accountServlet</servlet-name>
-        <url-pattern>/account</url-pattern>
+        <url-pattern>/accounts</url-pattern>
     </servlet-mapping>
 
 </web-app>

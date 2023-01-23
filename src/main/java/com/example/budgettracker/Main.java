@@ -1,34 +1,47 @@
 package com.example.budgettracker;
 
 import com.example.budgettracker.model.*;
+import com.example.budgettracker.model.dto.AccountDTO;
+import com.example.budgettracker.model.dto.OperationDTO;
+import com.example.budgettracker.model.dto.UserDTO;
+import com.example.budgettracker.util.OperationUtil;
 import org.joda.money.Money;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
-    public static User USER = new User("antipin@mail.ru", null, new HashSet<>(), LocalDate.now(), new ArrayList<>(), new HashSet<>());
+    public static User USER = new User("antipin@mail.ru", LocalDate.now(), null, new ArrayList<>(), new HashMap<>());
+    public static UserDTO USERDTO;
 
     static {
-        Account account = new Account(Money.parse("RUB 20000"), "Наличные", USER, new ArrayList<>(), new HashSet<>());
+        Account account = new Account(Money.parse("RUB 20000"), "Наличные", new ArrayList<>());
         USER.addAccount(account);
-        account.addLimit(new ExpenseLimit(LocalDate.of(2022, 3, 1), LocalDate.of(2022, 3, 31), ExpenseCategory.CAR, Money.parse("RUB 3000"), USER));
-        Expense expense1 = new Expense(Money.parse("RUB 1000"), LocalDate.of(2022, 3, 22), "Продукты", ExpenseCategory.GROCERIES);
-        Expense expense2 = new Expense(Money.parse("RUB 2550"), LocalDate.of(2022, 3, 28), null, ExpenseCategory.CAR);
-        Recharge recharge1 = new Recharge(Money.parse("RUB 5000"), LocalDate.of(2022, 3, 5), "Аванс");
-        Expense expense3 = new Expense(Money.parse("RUB 300"), LocalDate.of(2022, 3, 18), "", ExpenseCategory.COMMUNICATIONS);
-        Expense expense4 = new Expense(Money.parse("RUB 10200"), LocalDate.of(2022, 4, 7), "кайфуем", ExpenseCategory.LEISURE);
-        Recharge recharge2 = new Recharge(Money.parse("RUB 333333"), LocalDate.of(2022, 4, 19), null);
-        Expense expense5 = new Expense(Money.parse("RUB 700"), LocalDate.of(2022, 3, 30), "дозаправка", ExpenseCategory.CAR);
+        USER.addExpenseLimit(ExpenseCategory.CAR, Money.parse("RUB -3000"));
+        Operation expense1 = new Operation(Money.parse("RUB -1000"), LocalDate.of(2022, 3, 22), "Продукты", ExpenseCategory.GROCERIES);
+        Operation expense2 = new Operation(Money.parse("RUB -2550"), LocalDate.of(2022, 3, 28), null, ExpenseCategory.CAR);
+        Operation recharge1 = new Operation(Money.parse("RUB 5000"), LocalDate.of(2022, 3, 5), "Аванс", IncomeCategory.DEPOSIT);
+        Operation expense3 = new Operation(Money.parse("RUB -300"), LocalDate.of(2022, 3, 18), "", ExpenseCategory.COMMUNICATIONS);
+        Operation expense4 = new Operation(Money.parse("RUB -10200"), LocalDate.of(2022, 4, 7), "кайфуем", ExpenseCategory.LEISURE);
+        Operation recharge2 = new Operation(Money.parse("RUB 333333"), LocalDate.of(2022, 4, 19), null, IncomeCategory.SALARY);
+        Operation expense5 = new Operation(Money.parse("RUB -700"), LocalDate.of(2022, 3, 30), "дозаправка", ExpenseCategory.CAR);
         Operation[] ops = {expense1, expense2, recharge1, expense3, expense4, recharge2, expense5};
         Collections.addAll(account.getOperations(), ops);
+        List<OperationDTO> opsDTO = OperationUtil.getDTOList(Arrays.asList(ops), USER.getExpenseLimits());
+        AccountDTO accountDTO = new AccountDTO(Money.parse("RUB 20000"), "Наличные", opsDTO);
+        List<AccountDTO> accountDTOList = new ArrayList<>();
+        accountDTOList.add(accountDTO);
+        USERDTO = new UserDTO(accountDTOList);
     }
 
     public static void main(String[] args) {
-        Money money1 = Money.parse("RUB 2500");
-        Money money2 = Money.parse("RUB -500");
-        System.out.println(money1.plus(money2));
+        List<Operation> ops = USER.getAccounts()
+                .stream()
+                .map(Account::getOperations)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+        List<OperationDTO> dtos = OperationUtil.getDTOList(ops, USER.getExpenseLimits());
+        dtos.forEach(System.out::println);
     }
 }
