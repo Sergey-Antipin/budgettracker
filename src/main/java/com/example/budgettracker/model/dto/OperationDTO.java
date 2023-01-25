@@ -9,14 +9,14 @@ public class OperationDTO {
     private Money amount;
     private LocalDate date;
     private String description;
-    private OperationCategory operationCategory;
+    private String operationCategory;
     private boolean excess;
 
     public OperationDTO(Money amount, LocalDate date, String description, OperationCategory operationCategory, boolean excess) {
         this.amount = amount;
         this.date = date;
         this.description = description;
-        this.operationCategory = operationCategory;
+        this.operationCategory = operationCategory.toString();
         this.excess = excess;
     }
 
@@ -35,7 +35,7 @@ public class OperationDTO {
         return description;
     }
 
-    public OperationCategory getOperationCategory() {
+    public String getOperationCategory() {
         return operationCategory;
     }
 

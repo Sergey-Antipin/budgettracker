@@ -8,13 +8,29 @@
         .income {
             color: green;
         }
+
         .expense {
             color: red;
         }
+
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            font-weight: bold;
+        }
+        table th, td {
+            border: black solid 2px;
+            padding: 8px;
+        }
+
+        .excess {
+            background-color: rgba(255, 182, 193, 0.5);
+        }
+
     </style>
 </head>
 <body>
-<table>
+<table class="table">
     <thead>
     <tr>
         <th scope="col">Date</th>
@@ -30,7 +46,7 @@
         <jsp:useBean id="acc" class="com.example.budgettracker.model.dto.AccountDTO"/>
         <c:forEach var="op" items="${acc.operations}">
             <jsp:useBean id="op" class="com.example.budgettracker.model.dto.OperationDTO"/>
-            <tr class="${op.amount.positive ? 'income' : 'expense'}">
+            <tr class="${op.amount.positive ? 'income' : 'expense'} ${op.excess ? 'excess' : ''}">
                 <td>${op.date}</td>
                 <td>${op.amount}</td>
                 <td>${op.description}</td>
