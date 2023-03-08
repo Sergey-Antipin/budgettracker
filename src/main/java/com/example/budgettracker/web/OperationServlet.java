@@ -13,20 +13,20 @@ import java.io.IOException;
 
 import static com.example.budgettracker.Main.*;
 
-public class AccountServlet extends HttpServlet {
-    public static Logger log = LoggerFactory.getLogger(AccountServlet.class);
+public class OperationServlet extends HttpServlet {
+    public static Logger log = LoggerFactory.getLogger(OperationServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("user", USERDTO);
         req.setAttribute("testing", "test attribute");
-        log.debug("Hello AccountServlet");
+        log.debug("Hello OperationServlet");
         for (AccountDTO acc : USERDTO.getAccounts()) {
             for (OperationDTO op : acc.getOperations()) {
                 log.debug(op.toString());
             }
         }
         log.debug("after");
-        req.getRequestDispatcher("accounts.jsp").forward(req, resp);
+        req.getRequestDispatcher("operations.jsp").forward(req, resp);
     }
 }

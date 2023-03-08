@@ -25,11 +25,9 @@ public class OperationUtil {
         return operations.stream()
                 .map(op -> {
                     OperationCategory category = op.getOperationCategory();
-                    boolean excess;
-                    Money lim;
-                    if ((lim = limits.get(category)) == null) {
-                        excess = false;
-                    } else {
+                    Money lim = limits.get(category);
+                    boolean excess = false;
+                    if (lim != null) {
                         excess = opSumByCategory.get(category).isLessThan(lim);
                     }
                     return createDTO(op, excess);
