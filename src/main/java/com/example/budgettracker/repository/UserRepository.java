@@ -8,7 +8,7 @@ public interface UserRepository {
 
     User save(User user);
 
-    boolean delete(User user);
+    void delete(int id);
 
     User get(int id);
 

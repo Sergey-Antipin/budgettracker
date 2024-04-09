@@ -1,29 +1,60 @@
 package com.example.budgettracker.model;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.*;
 import org.joda.money.Money;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-public class User {
+@Entity
+@Table(name = "users")
+public class User extends AbstractBaseEntity {
+
+    @NotNull
+    @Email
+    @Column(name = "email", unique = true)
     private String email;
-    private LocalDate registrationDate;
-    private Family family;
+
+    @Temporal(TemporalType.DATE)
+    @CreationTimestamp
+    @Column(name = "registration_date", updatable = false)
+    private Date registrationDate;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "user")
+    @Fetch(FetchMode.JOIN)
     private List<Account> accounts;
-    private Map<OperationCategory, Money> expenseLimits;
+
+    @ElementCollection
+    @CollectionTable(name = "user_expense_limits", joinColumns = @JoinColumn(name = "user_id"))
+    @MapKeyEnumerated(EnumType.STRING)
+    @CompositeType(MoneyCompositeType.class)
+    @Columns(columns = {@Column(name = "limit_amount"), @Column(name = "limit_currency")})
+    private Map<@NotNull ExpenseCategory, @NotNull Money> expenseLimits;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private Set<Role> roles;
 
     public User() {
     }
 
-    public User(String email,
-                LocalDate registrationDate,
-                Family family,
+    public User(Integer id,
+                String email,
+                Date registrationDate,
                 List<Account> accounts,
-                Map<OperationCategory, Money> expenseLimits) {
+                Map<ExpenseCategory, Money> expenseLimits) {
+        super(id);
         this.email = email;
         this.registrationDate = registrationDate;
-        this.family = family;
         this.accounts = accounts;
         this.expenseLimits = expenseLimits;
     }
@@ -36,20 +67,12 @@ public class User {
         this.email = email;
     }
 
-    public LocalDate getRegistrationDate() {
+    public Date getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(LocalDate registrationDate) {
+    public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
-    }
-
-    public Family getFamily() {
-        return family;
-    }
-
-    public void setFamily(Family family) {
-        this.family = family;
     }
 
     public List<Account> getAccounts() {
@@ -60,29 +83,22 @@ public class User {
         this.accounts = accounts;
     }
 
-    public boolean addAccount(Account account) {
-        return accounts.add(account);
-    }
-
-    public boolean removeAccount(Account account) {
-        return accounts.remove(account);
-    }
-
-    public Map<OperationCategory, Money> getExpenseLimits() {
+    public Map<ExpenseCategory, Money> getExpenseLimits() {
         return expenseLimits;
     }
 
-    public void setExpenseLimits(Map<OperationCategory, Money> expenseLimits) {
+    public void setExpenseLimits(Map<ExpenseCategory, Money> expenseLimits) {
         this.expenseLimits = expenseLimits;
     }
 
-    public Money addExpenseLimit( OperationCategory category, Money limit) {
+    public Money addExpenseLimit(ExpenseCategory category, Money limit) {
         return expenseLimits.put(category, limit);
     }
 
-    public Money removeExpenseLimit( OperationCategory category) {
+    public Money removeExpenseLimit(ExpenseCategory category) {
         return expenseLimits.remove(category);
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

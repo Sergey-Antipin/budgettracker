@@ -1,6 +1,7 @@
 package com.example.budgettracker.model;
 
 public enum ExpenseCategory implements OperationCategory {
+
     GROCERIES,
     CAR,
     TRANSPORT,
@@ -13,6 +14,5 @@ public enum ExpenseCategory implements OperationCategory {
     COMMUNICATIONS,
     VACATION,
     FINANCIAL_OPERATIONS,
-    OTHER,
-    TOTAL
+    OTHER
 }

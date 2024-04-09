@@ -1,8 +1,18 @@
 package com.example.budgettracker.service;
 
-import com.example.budgettracker.repository.AccountRepository;
+import com.example.budgettracker.model.Account;
 
-public class AccountService {
+import java.util.List;
 
-    private AccountRepository repository;
+public interface AccountService {
+
+    Account create(Account account, int userId);
+
+    void update(Account account, int userId);
+
+    void delete(int id, int userId);
+
+    Account get(int id, int userId);
+
+    List<Account> getAll(int userId);
 }

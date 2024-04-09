@@ -1,4 +1,4 @@
-package com.example.budgettracker.model.dto;
+package com.example.budgettracker.dto;
 
 import com.example.budgettracker.model.OperationCategory;
 import org.joda.money.Money;
@@ -6,14 +6,14 @@ import org.joda.money.Money;
 import java.time.LocalDate;
 
 public class OperationDTO {
-    private Money amount;
+    private Money money;
     private LocalDate date;
     private String description;
     private String operationCategory;
     private boolean excess;
 
-    public OperationDTO(Money amount, LocalDate date, String description, OperationCategory operationCategory, boolean excess) {
-        this.amount = amount;
+    public OperationDTO(Money money, LocalDate date, String description, OperationCategory operationCategory, boolean excess) {
+        this.money = money;
         this.date = date;
         this.description = description;
         this.operationCategory = operationCategory.toString();
@@ -23,8 +23,8 @@ public class OperationDTO {
     public OperationDTO() {
     }
 
-    public Money getAmount() {
-        return amount;
+    public Money getMoney() {
+        return money;
     }
 
     public LocalDate getDate() {
@@ -46,7 +46,7 @@ public class OperationDTO {
     @Override
     public String toString() {
         return "OperationDTO{" +
-                "amount=" + amount +
+                "amount=" + money +
                 ", date=" + date +
                 ", description='" + description + '\'' +
                 ", operationCategory=" + operationCategory +

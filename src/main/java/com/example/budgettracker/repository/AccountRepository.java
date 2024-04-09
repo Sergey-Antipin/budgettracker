@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface AccountRepository {
 
-    Account save(Account account);
+    Account save(Account account, int userId);
 
-    boolean delete(Account account);
+    void delete(int id, int userId);
 
-    Account get(int id);
+    Account get(int id, int userId);
 
-    List<Account> getAll();
+    List<Account> getAll(int userId);
 }

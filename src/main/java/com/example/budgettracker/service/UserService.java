@@ -1,8 +1,17 @@
 package com.example.budgettracker.service;
 
-import com.example.budgettracker.repository.UserRepository;
+import com.example.budgettracker.model.User;
 
-public class UserService {
+import java.util.List;
 
-    private UserRepository repository;
+public interface UserService {
+    User create(User user);
+
+    void update(User user);
+
+    void delete(int id);
+
+    User get(int id);
+
+    List<User> getAll();
 }

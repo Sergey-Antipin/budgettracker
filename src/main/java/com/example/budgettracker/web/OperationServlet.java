@@ -1,7 +1,7 @@
 package com.example.budgettracker.web;
 
-import com.example.budgettracker.model.dto.AccountDTO;
-import com.example.budgettracker.model.dto.OperationDTO;
+import com.example.budgettracker.dto.AccountDTO;
+import com.example.budgettracker.dto.OperationDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

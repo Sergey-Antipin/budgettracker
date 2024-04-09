@@ -1,35 +1,55 @@
 package com.example.budgettracker.model;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.Columns;
+import org.hibernate.annotations.CompositeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
-import java.util.Currency;
+import java.math.BigDecimal;
 import java.util.List;
 
-public class Account {
+@Entity
+@Table(name = "accounts")
+public class Account extends AbstractBaseEntity {
 
+    @NotNull
+    @CompositeType(MoneyCompositeType.class)
+    @Columns(columns = {@Column(name = "amount"), @Column(name = "currency")})
     private Money balance;
+
+    @Column(name = "description")
     private String description;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "account")
+    @Fetch(FetchMode.JOIN)
+    @OrderBy("date DESC")
     private List<Operation> operations;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", updatable = false)
+    private User user;
 
     public Account() {
     }
 
-    public Account(Money balance, String description, List<Operation> operations) {
+    public Account(Integer id, Money balance, String description, List<Operation> operations) {
+        super(id);
         this.balance = balance;
         this.description = description;
         this.operations = operations;
     }
 
-    public boolean addOperation(Operation operation) {
-        return operations.add(operation);
+    public CurrencyUnit getCurrency() {
+        return balance.getCurrencyUnit();
     }
 
-    public boolean removeOperation(Operation operation) {
-        return operations.remove(operation);
-    }
-
-    public Currency getCurrency() {
-        return balance.getCurrencyUnit().toCurrency();
+    public BigDecimal getAmount() {
+        return balance.getAmount();
     }
 
     public Money getBalance() {
@@ -56,9 +76,17 @@ public class Account {
         this.description = description;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
-        return "DebitAccount{" +
+        return "Account{" +
                 "balance=" + balance +
                 ", description='" + description + '\'' +
                 '}';

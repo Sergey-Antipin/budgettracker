@@ -1,29 +1,53 @@
 package com.example.budgettracker.model;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.Columns;
+import org.hibernate.annotations.CompositeType;
 import org.joda.money.Money;
 
 import java.time.LocalDate;
 
-public class Operation {
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type", length = 7)
+@Table(name = "operations")
+public abstract class Operation extends AbstractBaseEntity {
 
-    private Money amount;
+    @NotNull
+    @CompositeType(MoneyCompositeType.class)
+    @Columns(columns = {@Column(name = "amount"), @Column(name = "currency")})
+    private Money money;
+
+    @NotNull
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date")
     private LocalDate date;
-    private String description;
-    private OperationCategory operationCategory;
 
-    public Operation(Money amount, LocalDate date, String description, OperationCategory operationCategory) {
-        this.amount = amount;
+    @Column(name = "description")
+    private String description;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id")
+    private Account account;
+
+    public Operation() {
+    }
+
+    public Operation(Integer id, Money money, LocalDate date, String description) {
+        super(id);
+        this.money = money;
         this.date = date;
         this.description = description;
-        this.operationCategory = operationCategory;
     }
 
-    public Money getAmount() {
-        return amount;
+    public Money getMoney() {
+        return money;
     }
 
-    public void setAmount(Money amount) {
-        this.amount = amount;
+    public void setMoney(Money money) {
+        this.money = money;
     }
 
     public LocalDate getDate() {
@@ -42,11 +66,13 @@ public class Operation {
         this.description = description;
     }
 
-    public OperationCategory getOperationCategory() {
-        return operationCategory;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setOperationCategory(OperationCategory operationCategory) {
-        this.operationCategory = operationCategory;
+    public void setAccount(Account account) {
+        this.account = account;
     }
+
+    public abstract OperationCategory getCategory();
 }

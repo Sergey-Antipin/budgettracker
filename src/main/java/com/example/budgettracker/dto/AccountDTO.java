@@ -1,4 +1,4 @@
-package com.example.budgettracker.model.dto;
+package com.example.budgettracker.dto;
 
 import org.joda.money.Money;
 

@@ -41,14 +41,14 @@
     </tr>
     </thead>
     <tbody>
-    <jsp:useBean id="user" scope="request" type="com.example.budgettracker.model.dto.UserDTO"/>
+    <jsp:useBean id="user" scope="request" type="com.example.budgettracker.dto.UserDTO"/>
     <c:forEach var="acc" items="${user.accounts}">
-        <jsp:useBean id="acc" class="com.example.budgettracker.model.dto.AccountDTO"/>
+        <jsp:useBean id="acc" class="com.example.budgettracker.dto.AccountDTO"/>
         <c:forEach var="op" items="${acc.operations}">
-            <jsp:useBean id="op" class="com.example.budgettracker.model.dto.OperationDTO"/>
-            <tr class="${op.amount.positive ? 'income' : 'expense'} ${op.excess ? 'excess' : ''}">
+            <jsp:useBean id="op" class="com.example.budgettracker.dto.OperationDTO"/>
+            <tr class="${op.money.positive ? 'income' : 'expense'} ${op.excess ? 'excess' : ''}">
                 <td>${op.date}</td>
-                <td>${op.amount}</td>
+                <td>${op.money}</td>
                 <td>${op.description}</td>
                 <td>${op.operationCategory}</td>
                 <td>${op.excess}</td>
