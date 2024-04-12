@@ -9,7 +9,7 @@ public interface OperationRepository {
 
     Operation save(Operation operation, int accountId);
 
-    boolean delete(Operation operation, int accountId);
+    void delete(int id, int accountId);
 
     Operation get(int id, int accountId);
 

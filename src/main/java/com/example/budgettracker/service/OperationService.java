@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface OperationService {
 
-    Operation create(Operation operation);
+    Operation create(Operation operation, int accountId);
 
     void update(Operation operation, int accountId);
 
-    void delete(Operation operation, int accountId);
+    void delete(int id, int accountId);
 
-    Operation get(Operation operation, int accountId);
+    Operation get(int id, int accountId);
 
     List<Operation> getAll(int accountId);
 

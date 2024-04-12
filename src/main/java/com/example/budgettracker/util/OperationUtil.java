@@ -1,6 +1,6 @@
 package com.example.budgettracker.util;
 
-import com.example.budgettracker.dto.OperationDTO;
+import com.example.budgettracker.dto.OperationDto;
 import com.example.budgettracker.model.ExpenseCategory;
 import com.example.budgettracker.model.Operation;
 import com.example.budgettracker.model.OperationCategory;
@@ -12,15 +12,16 @@ import java.util.stream.Collectors;
 
 public class OperationUtil {
 
-    public static OperationDTO createDTO(Operation operation, boolean excess) {
-        return new OperationDTO(operation.getMoney(),
+    public static OperationDto createDto(Operation operation, boolean excess) {
+        return new OperationDto(operation.getId(),
+                operation.getMoney(),
                 operation.getDate(),
                 operation.getDescription(),
                 operation.getCategory(),
                 excess);
     }
 
-    public static List<OperationDTO> getDTOList(List<Operation> operations, Map<ExpenseCategory, Money> limits) {
+    public static List<OperationDto> getDtoList(List<Operation> operations, Map<ExpenseCategory, Money> limits) {
         Map<OperationCategory, Money> opSumByCategory = operations.stream()
                 .collect(Collectors.toMap(Operation::getCategory, Operation::getMoney, Money::plus));
         return operations.stream()
@@ -31,7 +32,7 @@ public class OperationUtil {
                     if (lim != null) {
                         excess = opSumByCategory.get(category).isLessThan(lim);
                     }
-                    return createDTO(op, excess);
+                    return createDto(op, excess);
                 }).collect(Collectors.toList());
         /*return operations.stream()
                 .map(op -> createDTO(op, limits.get(op.getCategory()) != null &&

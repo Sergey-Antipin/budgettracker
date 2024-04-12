@@ -18,6 +18,7 @@
             border-collapse: collapse;
             font-weight: bold;
         }
+
         table th, td {
             border: black solid 2px;
             padding: 8px;
@@ -41,23 +42,20 @@
     </tr>
     </thead>
     <tbody>
-    <jsp:useBean id="user" scope="request" type="com.example.budgettracker.dto.UserDTO"/>
-    <c:forEach var="acc" items="${user.accounts}">
-        <jsp:useBean id="acc" class="com.example.budgettracker.dto.AccountDTO"/>
-        <c:forEach var="op" items="${acc.operations}">
-            <jsp:useBean id="op" class="com.example.budgettracker.dto.OperationDTO"/>
-            <tr class="${op.money.positive ? 'income' : 'expense'} ${op.excess ? 'excess' : ''}">
-                <td>${op.date}</td>
-                <td>${op.money}</td>
-                <td>${op.description}</td>
-                <td>${op.operationCategory}</td>
-                <td>${op.excess}</td>
-            </tr>
-        </c:forEach>
+    <jsp:useBean id="user" scope="request" type="com.example.budgettracker.dto.UserDto"/>
+    <jsp:useBean id="account" scope="request" class="com.example.budgettracker.dto.AccountDto"/>
+    <jsp:useBean id="operation" scope="request" class="com.example.budgettracker.dto.OperationDto"/>
+    <c:forEach items="${requestScope.operationlist}" var="op">
+        <tr class="${op.money.positive ? 'income' : 'expense'} ${op.excess ? ' excess' : ''}">
+            <td>${op.date}</td>
+            <td>${op.money}</td>
+            <td>${op.description}</td>
+            <td>${op.operationCategory}</td>
+            <td>${op.excess}</td>
+        </tr>
     </c:forEach>
     </tbody>
 </table>
-<h3><a href="index.html">Home</a></h3>
 <hr>
 </body>
 </html>

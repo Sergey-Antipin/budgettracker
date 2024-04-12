@@ -23,6 +23,8 @@
         <logback.version>1.2.11</logback.version>
         <spring-orm.version>6.1.5</spring-orm.version>
         <postgresql.version>42.7.3</postgresql.version>
+        <spring-webmvc.version>5.3.33</spring-webmvc.version>
+        <webjars.bootstrap.version>5.3.3</webjars.bootstrap.version>
     </properties>
 
     <build>
@@ -94,6 +96,18 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring-webmvc.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.webjars/bootstrap -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>${webjars.bootstrap.version}</version>
         </dependency>
 
 

@@ -3,6 +3,7 @@ package com.example.budgettracker.repository;
 import com.example.budgettracker.model.Account;
 import com.example.budgettracker.model.Operation;
 import com.example.budgettracker.util.exception.EntityAccessException;
+import com.example.budgettracker.util.exception.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TemporalType;
@@ -23,27 +24,28 @@ public class OperationRepositoryImpl implements OperationRepository {
         if (operation.isNew()) {
             em.persist(operation);
             return operation;
-        } else if (get(operation.getId(), accountId) == null) {
-            return null;
         }
         return em.merge(operation);
     }
 
     @Override
-    public boolean delete(Operation operation, int accountId) {
-        return em.createQuery("DELETE FROM Operation o WHERE o.id = :id AND o.account.id = :accountId")
-                .setParameter("id", operation.getId())
+    public void delete(int id, int accountId) throws EntityAccessException {
+        int rowsAffected = em.createQuery("DELETE FROM Operation o WHERE o.id = :id AND o.account.id = :accountId")
+                .setParameter("id", id)
                 .setParameter("accountId", accountId)
-                .executeUpdate() != 0;
+                .executeUpdate();
+        if (rowsAffected == 0 && em.getReference(Operation.class, id) != null) {
+            throw new EntityAccessException(id, accountId);
+        }
     }
 
     @Override
-    public Operation get(int id, int accountId) {
+    public Operation get(int id, int accountId) throws EntityAccessException, NotFoundException {
         Operation operation = em.find(Operation.class, id);
-        if (operation == null) {
-            return null;
-        } else if (operation.getAccount().getId() != accountId) {
+        if (operation != null && operation.getAccount().getId() != accountId) {
             throw new EntityAccessException(id, accountId);
+        } else if (operation == null) {
+            throw new NotFoundException(id);
         }
         return operation;
     }
