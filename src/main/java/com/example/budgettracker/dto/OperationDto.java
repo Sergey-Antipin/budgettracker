@@ -1,5 +1,6 @@
 package com.example.budgettracker.dto;
 
+import com.example.budgettracker.model.Account;
 import com.example.budgettracker.model.OperationCategory;
 import org.joda.money.Money;
 
@@ -16,17 +17,20 @@ public class OperationDto {
 
     private String description;
 
-    private String operationCategory;
+    private OperationCategory operationCategory;
 
     private boolean excess;
 
-    public OperationDto(Integer id, Money money, LocalDate date, String description, OperationCategory operationCategory, boolean excess) {
+    private Account account;
+
+    public OperationDto(Integer id, Money money, LocalDate date, String description, OperationCategory operationCategory, boolean excess, Account account) {
         this.id = id;
         this.money = money;
         this.date = date;
         this.description = description;
-        this.operationCategory = operationCategory.toString();
+        this.operationCategory = operationCategory;
         this.excess = excess;
+        this.account = account;
     }
 
     public OperationDto() {
@@ -48,12 +52,16 @@ public class OperationDto {
         return description;
     }
 
-    public String getOperationCategory() {
+    public OperationCategory getOperationCategory() {
         return operationCategory;
     }
 
     public boolean isExcess() {
         return excess;
+    }
+
+    public Account getAccount() {
+        return account;
     }
 
     public void setId(Integer id) {
@@ -72,12 +80,16 @@ public class OperationDto {
         this.description = description;
     }
 
-    public void setOperationCategory(String operationCategory) {
+    public void setOperationCategory(OperationCategory operationCategory) {
         this.operationCategory = operationCategory;
     }
 
     public void setExcess(boolean excess) {
         this.excess = excess;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     @Override

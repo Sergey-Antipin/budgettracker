@@ -32,7 +32,7 @@ public abstract class Operation extends AbstractBaseEntity {
     @JoinColumn(name = "account_id")
     private Account account;
 
-    public Operation() {
+    protected Operation() {
     }
 
     public Operation(Integer id, Money money, LocalDate date, String description) {

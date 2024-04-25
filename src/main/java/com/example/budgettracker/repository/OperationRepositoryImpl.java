@@ -2,11 +2,13 @@ package com.example.budgettracker.repository;
 
 import com.example.budgettracker.model.Account;
 import com.example.budgettracker.model.Operation;
+import com.example.budgettracker.model.OperationCategory;
 import com.example.budgettracker.util.exception.EntityAccessException;
 import com.example.budgettracker.util.exception.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TemporalType;
+import org.joda.money.Money;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -67,4 +69,20 @@ public class OperationRepositoryImpl implements OperationRepository {
                 .setParameter("end", end, TemporalType.DATE)
                 .getResultList();
     }
+
+    /*@Override
+    public List<Operation> getByCategories(int accountId, OperationCategory... categories) {
+        return em.createQuery("SELECT o FROM Operation o WHERE o.account.id = :accountId AND " +
+                " ")
+    }
+
+    @Override
+    public List<Operation> getLessThan(int accountId, Money money) {
+        return List.of();
+    }
+
+    @Override
+    public List<Operation> getGreaterThan(int accountId, Money money) {
+        return List.of();
+    }*/
 }

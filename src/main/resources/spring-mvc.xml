@@ -7,21 +7,21 @@
    http://www.springframework.org/schema/context
    http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <context:component-scan base-package = "com.example.budgettracker.web" />
-
     <mvc:annotation-driven/>
 
     <mvc:default-servlet-handler/>
 
-    <bean class = "org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name = "prefix" value = "/WEB-INF/jsp/" />
-        <property name = "suffix" value = ".jsp" />
+    <context:component-scan base-package="com.example.budgettracker.web"/>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
     </bean>
 
     <!--  all resources inside folder src/main/webapp/resources are mapped, so they can be referred to inside JSP files -->
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 
-   <!--  use WebJars so Javascript and CSS libs can be declared as Maven dependencies (Bootstrap, jQuery...)-->
+    <!--  use WebJars so Javascript and CSS libs can be declared as Maven dependencies (Bootstrap, jQuery...)-->
     <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
 
 

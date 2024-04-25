@@ -18,7 +18,8 @@ public class OperationUtil {
                 operation.getDate(),
                 operation.getDescription(),
                 operation.getCategory(),
-                excess);
+                excess,
+                operation.getAccount());
     }
 
     public static List<OperationDto> getDtoList(List<Operation> operations, Map<ExpenseCategory, Money> limits) {

@@ -7,20 +7,22 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.*;
 import org.joda.money.Money;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
-public class User extends AbstractBaseEntity {
+public class User extends AbstractBaseEntity implements UserDetails {
 
     @NotNull
     @Email
     @Column(name = "email", unique = true)
     private String email;
+
+    @Column(name = "password")
+    private String password;
 
     @Temporal(TemporalType.DATE)
     @CreationTimestamp
@@ -49,14 +51,18 @@ public class User extends AbstractBaseEntity {
 
     public User(Integer id,
                 String email,
+                String password,
                 Date registrationDate,
                 List<Account> accounts,
-                Map<ExpenseCategory, Money> expenseLimits) {
+                Map<ExpenseCategory, Money> expenseLimits,
+                Set<Role> roles) {
         super(id);
         this.email = email;
+        this.password = password;
         this.registrationDate = registrationDate;
         this.accounts = accounts;
         this.expenseLimits = expenseLimits;
+        this.roles = roles;
     }
 
     public String getEmail() {
@@ -91,12 +97,16 @@ public class User extends AbstractBaseEntity {
         this.expenseLimits = expenseLimits;
     }
 
-    public Money addExpenseLimit(ExpenseCategory category, Money limit) {
-        return expenseLimits.put(category, limit);
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public Money removeExpenseLimit(ExpenseCategory category) {
-        return expenseLimits.remove(category);
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
@@ -117,5 +127,40 @@ public class User extends AbstractBaseEntity {
         return "User{" +
                 "email='" + email + '\'' +
                 '}';
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
