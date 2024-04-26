@@ -13,6 +13,7 @@ public enum ExpenseCategory implements OperationCategory {
     SPORTS,
     COMMUNICATIONS,
     VACATION,
+    GIFTS,
     FINANCIAL_OPERATIONS,
     OTHER
 }

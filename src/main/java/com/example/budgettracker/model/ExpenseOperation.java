@@ -1,10 +1,7 @@
 package com.example.budgettracker.model;
 
 import com.example.budgettracker.util.validation.MoneyNegative;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import org.joda.money.Money;
 
@@ -17,6 +14,7 @@ public class ExpenseOperation extends Operation {
 
     @NotNull
     @Enumerated(EnumType.STRING)
+    @Column(name = "category")
     private ExpenseCategory category;
 
     public ExpenseOperation() {

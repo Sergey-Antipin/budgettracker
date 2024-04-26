@@ -32,6 +32,7 @@
             </label>
         </div>--%>
         <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
+        <br/>
         <p>Don't have an account?
         <a href="#" data-bs-toggle="modal" data-bs-target="#registrationModal">Signup</a>
         </p>

@@ -47,9 +47,9 @@ CREATE TABLE user_roles
 
 CREATE TABLE user_expense_limits
 (
-    user_id            INTEGER        NOT NULL REFERENCES users (id) ON DELETE CASCADE,
-    operation_category VARCHAR(255)   NOT NULL,
-    limit_amount       NUMERIC(16, 4) NOT NULL,
-    limit_currency     VARCHAR(3)     NOT NULL,
-    PRIMARY KEY (user_id, operation_category)
+    user_id          INTEGER        NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+    expense_category VARCHAR(255)   NOT NULL,
+    limit_amount     NUMERIC(16, 4) NOT NULL,
+    limit_currency   VARCHAR(3)     NOT NULL,
+    PRIMARY KEY (user_id, expense_category)
 );
