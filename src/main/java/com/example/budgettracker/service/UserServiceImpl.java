@@ -1,40 +1,49 @@
 package com.example.budgettracker.service;
 
+import com.example.budgettracker.dto.UserDto;
 import com.example.budgettracker.model.User;
 import com.example.budgettracker.repository.UserRepository;
+import com.example.budgettracker.util.UserMapper;
 import com.example.budgettracker.util.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
+@Service("userService")
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService, UserDetailsService {
 
-    private final UserRepository repository;
+    private UserRepository repository;
+
+    private UserMapper mapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository repository) {
+    public UserServiceImpl(UserRepository repository, UserMapper mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     @Override
-    public User create(User user) {
-        Assert.notNull(user, "passed user is null");
-        return repository.save(user);
+    @Transactional
+    public User create(UserDto user) {
+        User newUser = mapper.createFromDto(user);
+        return repository.save(newUser);
     }
 
     @Override
-    public void update(User user) {
-        Assert.notNull(user, "passed user is null");
-        repository.save(user);
+    @Transactional
+    public void update(UserDto user) {
+        User userToUpdate = get(user.getId());
+        repository.save(mapper.updateFromDto(user, userToUpdate));
     }
 
     @Override
+    @Transactional
     public void delete(int id) {
         try {
             repository.delete(id);
@@ -52,6 +61,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             //TODO
         }
         return user;
+    }
+
+    @Override
+    public UserDto getDto(int id) {
+        return mapper.toDto(get(id));
     }
 
     @Override

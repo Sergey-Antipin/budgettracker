@@ -1,5 +1,6 @@
 package com.example.budgettracker.model;
 
+import com.example.budgettracker.util.validation.MoneyNegative;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Table;
 import jakarta.persistence.*;
@@ -33,15 +34,16 @@ public class User extends AbstractBaseEntity implements UserDetails {
     @Fetch(FetchMode.JOIN)
     private List<Account> accounts;
 
-    @ElementCollection
-    @CollectionTable(name = "user_expense_limits", joinColumns = @JoinColumn(name = "user_id"))
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_expense_limits", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+    @MapKeyColumn(name = "expense_category")
     @MapKeyEnumerated(EnumType.STRING)
     @CompositeType(MoneyCompositeType.class)
-    @Columns(columns = {@Column(name = "limit_amount"), @Column(name = "limit_currency")})
-    private Map<@NotNull ExpenseCategory, @NotNull Money> expenseLimits;
+    @Columns(columns = {@Column(name = "amount"), @Column(name = "currency")})
+    private Map<@NotNull ExpenseCategory, @MoneyNegative Money> expenseLimits;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Set<Role> roles;
@@ -113,8 +115,9 @@ public class User extends AbstractBaseEntity implements UserDetails {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         User user = (User) o;
-        return email.equals(user.email);
+        return Objects.equals(email, user.email);
     }
 
     @Override
@@ -126,6 +129,12 @@ public class User extends AbstractBaseEntity implements UserDetails {
     public String toString() {
         return "User{" +
                 "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", registrationDate=" + registrationDate +
+                ", accounts=" + accounts +
+                ", expenseLimits=" + expenseLimits +
+                ", roles=" + roles +
+                ", id=" + id +
                 '}';
     }
 

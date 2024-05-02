@@ -42,14 +42,15 @@ CREATE INDEX operations_account_date_idx on operations (account_id, date);
 CREATE TABLE user_roles
 (
     user_id INTEGER      NOT NULL REFERENCES users (id) ON DELETE CASCADE,
-    role    VARCHAR(255) NOT NULL
+    role    VARCHAR(255) NOT NULL,
+    PRIMARY KEY (user_id, role)
 );
 
 CREATE TABLE user_expense_limits
 (
     user_id          INTEGER        NOT NULL REFERENCES users (id) ON DELETE CASCADE,
     expense_category VARCHAR(255)   NOT NULL,
-    limit_amount     NUMERIC(16, 4) NOT NULL,
-    limit_currency   VARCHAR(3)     NOT NULL,
+    amount           NUMERIC(16, 4) NOT NULL,
+    currency         VARCHAR(3)     NOT NULL,
     PRIMARY KEY (user_id, expense_category)
 );

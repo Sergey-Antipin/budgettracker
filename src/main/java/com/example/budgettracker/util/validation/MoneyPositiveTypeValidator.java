@@ -4,7 +4,7 @@ import com.example.budgettracker.model.Operation;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class MoneyPositiveValidator implements ConstraintValidator<MoneyPositive, Operation> {
+public class MoneyPositiveTypeValidator implements ConstraintValidator<MoneyPositive, Operation> {
 
     @Override
     public boolean isValid(Operation value, ConstraintValidatorContext context) {

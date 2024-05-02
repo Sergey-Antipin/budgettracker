@@ -8,6 +8,7 @@ DELETE
 FROM accounts;
 DELETE
 FROM users;
+ALTER SEQUENCE global_seq RESTART WITH 100000;
 
 INSERT INTO users (email, password, registration_date)
 VALUES ('admin@mail.ru', 'adminpassword', '2024-01-01'), /*id = 100000*/
@@ -31,11 +32,11 @@ VALUES ('2024-02-02', -10000.00, 'RUB', 'всё пропил', 'expense', 'LEISU
        ('2024-03-08', -10000.00, 'RUB', 'подарки', 'expense', 'GIFTS', 100006);
 
 INSERT INTO user_roles (user_id, role)
-VALUES (100000, 'ROLE_ADMIN'),
-       (100001, 'ROLE_USER'),
-       (100002, 'ROLE_USER');
+VALUES (100000, 'ADMIN'),
+       (100001, 'USER'),
+       (100002, 'USER');
 
-INSERT INTO user_expense_limits (user_id, expense_category, limit_amount, limit_currency)
+INSERT INTO user_expense_limits (user_id, expense_category, amount, currency)
 VALUES (100001, 'CAR', -5000.00, 'RUB'),
        (100002, 'GIFTS', -10000.00, 'RUB');
 

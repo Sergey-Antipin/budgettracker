@@ -22,7 +22,12 @@
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 
     <!--  use WebJars so Javascript and CSS libs can be declared as Maven dependencies (Bootstrap, jQuery...)-->
-    <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
+    <mvc:resources mapping="/webjars/**" location="/webjars/">
+        <mvc:resource-chain resource-cache="false">
+            <mvc:resolvers>
+                <bean class="org.springframework.web.servlet.resource.WebJarsResourceResolver"/>
+            </mvc:resolvers>
+        </mvc:resource-chain>
 
-
+    </mvc:resources>
 </beans>

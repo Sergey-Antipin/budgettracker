@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 
-@Service
+@Service("accountService")
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository repository;

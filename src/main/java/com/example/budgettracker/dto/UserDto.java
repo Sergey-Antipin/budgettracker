@@ -1,6 +1,10 @@
 package com.example.budgettracker.dto;
 
 import com.example.budgettracker.model.ExpenseCategory;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import org.joda.money.Money;
 
 import java.util.Map;
@@ -10,13 +14,21 @@ public class UserDto {
 
     private Integer id;
 
+    @NotEmpty
+    @Email(regexp = "^[_A-Za-z0-9-+]+(.[_A-Za-z0-9-]+)*@" +
+            "[A-Za-z0-9-]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,})$")
     private String email;
+
+    @NotEmpty
+    @NotBlank
+    private String password;
 
     private Map<ExpenseCategory, Money> expenseLimits;
 
-    public UserDto(Integer id, String email, Map<ExpenseCategory, Money> expenseLimits) {
+    public UserDto(Integer id, String email, String password, Map<ExpenseCategory, Money> expenseLimits) {
         this.id = id;
         this.email = email;
+        this.password = password;
         this.expenseLimits = expenseLimits;
     }
 
@@ -37,6 +49,14 @@ public class UserDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Map<ExpenseCategory, Money> getExpenseLimits() {

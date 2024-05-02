@@ -11,6 +11,7 @@ import org.joda.money.Money;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "accounts")
@@ -82,6 +83,11 @@ public class Account extends AbstractBaseEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), balance, description, operations, user);
     }
 
     @Override

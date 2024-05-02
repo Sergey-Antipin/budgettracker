@@ -9,7 +9,7 @@ import org.joda.money.Money;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Objects;
+import java.nio.charset.StandardCharsets;
 
 public final class MoneyCompositeType implements CompositeUserType<Money> {
 
@@ -20,7 +20,7 @@ public final class MoneyCompositeType implements CompositeUserType<Money> {
     public Object getPropertyValue(Money component, int property) throws HibernateException {
         return switch (property) {
             case 0 -> component.getAmount();
-            case 1 -> component.getCurrencyUnit();
+            case 1 -> component.getCurrencyUnit().getCode();
             default -> throw new HibernateException("Illegal property index: " + property);
         };
     }
@@ -28,8 +28,8 @@ public final class MoneyCompositeType implements CompositeUserType<Money> {
     @Override
     public Money instantiate(ValueAccess values, SessionFactoryImplementor sessionFactory) {
         final BigDecimal amount = values.getValue(0, BigDecimal.class);
-        final CurrencyUnit currency = values.getValue(1, CurrencyUnit.class);
-        return Objects.requireNonNull(Money.of(currency, amount), "Currency and amount must not be null");
+        final String currency = values.getValue(1, String.class);
+        return Money.parse(currency + " " + amount);
     }
 
     @Override
@@ -44,7 +44,13 @@ public final class MoneyCompositeType implements CompositeUserType<Money> {
 
     @Override
     public boolean equals(Money x, Money y) {
-        return Objects.equals(x, y);
+        if (x == y) {
+            return true;
+        }
+        if (x == null || y == null) {
+            return false;
+        }
+        return x.equals(y);
     }
 
     @Override
@@ -79,6 +85,6 @@ public final class MoneyCompositeType implements CompositeUserType<Money> {
 
     public static class MoneyEmbeddable {
         private BigDecimal amount;
-        private CurrencyUnit currency;
+        private String currency;
     }
 }

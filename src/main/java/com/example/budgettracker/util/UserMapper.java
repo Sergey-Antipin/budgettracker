@@ -1,6 +1,5 @@
 package com.example.budgettracker.util;
 
-import com.example.budgettracker.dto.UserCreationDto;
 import com.example.budgettracker.dto.UserDto;
 import com.example.budgettracker.model.Role;
 import com.example.budgettracker.model.User;
@@ -26,17 +25,24 @@ public class UserMapper {
     public UserDto toDto(User user) {
         return new UserDto(user.getId(),
                 user.getEmail(),
+                user.getPassword(),
                 user.getExpenseLimits());
     }
 
-    public User toUser(UserCreationDto dto) {
+    public User createFromDto(UserDto dto) {
         return new User(null,
-                dto.getPassword(),
-                dto.getEmail(),
+                dto.getEmail().toLowerCase(),
+                encoder.encode(dto.getPassword()),
                 new Date(),
                 new ArrayList<>(),
                 new HashMap<>(),
                 new HashSet<>(Set.of(Role.USER)));
+    }
+
+    public User updateFromDto(UserDto dto, User user) {
+        user.setPassword(encoder.encode(dto.getPassword()));
+        user.setExpenseLimits(dto.getExpenseLimits());
+        return user;
     }
 
     public PasswordEncoder getEncoder() {

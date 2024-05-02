@@ -2,17 +2,18 @@ package com.example.budgettracker.util.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
+import jakarta.validation.constraints.NotNull;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Target({TYPE, ANNOTATION_TYPE})
-@Constraint(validatedBy = MoneyNegativeValidator.class)
+@Target({TYPE, ANNOTATION_TYPE, FIELD, TYPE_USE})
+@Constraint(validatedBy = {MoneyNegativeTypeValidator.class, MoneyNegativeTypeUseValidator.class})
 @Retention(RUNTIME)
+@NotNull
 public @interface MoneyNegative {
 
     String message() default "Money must be negative";
