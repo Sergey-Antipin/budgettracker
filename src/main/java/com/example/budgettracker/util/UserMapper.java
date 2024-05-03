@@ -6,6 +6,7 @@ import com.example.budgettracker.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.util.*;
 
@@ -23,6 +24,7 @@ public class UserMapper {
     }
 
     public UserDto toDto(User user) {
+        Assert.notNull(user, "passed used is null");
         return new UserDto(user.getId(),
                 user.getEmail(),
                 user.getPassword(),
@@ -31,7 +33,7 @@ public class UserMapper {
 
     public User createFromDto(UserDto dto) {
         return new User(null,
-                dto.getEmail().toLowerCase(),
+                dto.getEmail().trim().toLowerCase(),
                 encoder.encode(dto.getPassword()),
                 new Date(),
                 new ArrayList<>(),

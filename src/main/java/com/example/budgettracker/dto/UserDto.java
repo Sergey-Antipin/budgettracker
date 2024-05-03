@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.joda.money.Money;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -30,6 +31,10 @@ public class UserDto {
         this.email = email;
         this.password = password;
         this.expenseLimits = expenseLimits;
+    }
+
+    public UserDto(String email, String password) {
+        this(null, email, password, null);
     }
 
     public UserDto() {

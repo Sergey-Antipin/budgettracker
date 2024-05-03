@@ -2,7 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:security="http://www.springframework.org/schema/security"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/security https://www.springframework.org/schema/security/spring-security.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/security https://www.springframework.org/schema/security/spring-security.xsd">
 
     <bean class="org.springframework.security.crypto.factory.PasswordEncoderFactories" id="passwordEncoder"
           factory-method="createDelegatingPasswordEncoder"/>
@@ -17,12 +18,13 @@
     <security:http>
         <security:intercept-url pattern="/profile/login" access="permitAll()"/>
         <security:intercept-url pattern="/profile/register" access="isAnonymous()"/>
+        <security:intercept-url pattern="/**" access="isAuthenticated()"/>
         <security:intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
-        <security:intercept-url pattern="/accounts" access="isAuthenticated()"/>
 
         <security:form-login login-page="/profile/login" default-target-url="/accounts"
-        authentication-failure-url="/profile/login?error=true" login-processing-url="/profile/login"/>
+        authentication-failure-url="/profile/login?error=true" login-processing-url="/auth-check"/>
         <security:logout logout-success-url="/profile/login" delete-cookies="JSESSIONID"/>
+        <security:csrf disabled="true"/>
     </security:http>
 
 

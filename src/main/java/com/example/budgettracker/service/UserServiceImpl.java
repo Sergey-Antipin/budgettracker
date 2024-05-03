@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public User create(UserDto user) {
+        Assert.notNull(user, "passed used is null");
         User newUser = mapper.createFromDto(user);
         return repository.save(newUser);
     }
@@ -38,6 +40,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public void update(UserDto user) {
+        Assert.notNull(user, "passed used is null");
         User userToUpdate = get(user.getId());
         repository.save(mapper.updateFromDto(user, userToUpdate));
     }

@@ -1,7 +1,9 @@
 package com.example.budgettracker.service;
 
+import com.example.budgettracker.dto.AccountDto;
 import com.example.budgettracker.model.Account;
 import com.example.budgettracker.repository.AccountRepository;
+import com.example.budgettracker.util.AccountMapper;
 import com.example.budgettracker.util.exception.EntityAccessException;
 import com.example.budgettracker.util.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,22 +16,26 @@ import java.util.List;
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository repository;
+    private final AccountMapper mapper;
 
     @Autowired
-    public AccountServiceImpl(AccountRepository repository) {
+    public AccountServiceImpl(AccountRepository repository, AccountMapper mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     @Override
-    public Account create(Account account, int userId) {
+    public Account create(AccountDto account, int userId) {
         Assert.notNull(account, "passed account is null");
-        return repository.save(account, userId);
+        Account newAccount = mapper.createFromDto(account);
+        return repository.save(newAccount, userId);
     }
 
     @Override
-    public void update(Account account, int userId) {
+    public void update(AccountDto account, int userId) {
         Assert.notNull(account, "passed account is null");
-        repository.save(account, userId);
+        Account accountToUpdate = get(account.getId(), userId);
+        repository.save(mapper.updateFromDto(account, accountToUpdate), userId);
     }
 
     @Override
@@ -52,6 +58,11 @@ public class AccountServiceImpl implements AccountService {
             //TODO NotFoundException handling
         }
         return account;
+    }
+
+    @Override
+    public AccountDto getDto(int id, int userId) {
+        return mapper.toDto(get(id, userId));
     }
 
     @Override

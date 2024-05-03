@@ -12,16 +12,6 @@ import java.util.stream.Collectors;
 
 public class OperationUtil {
 
-    public static OperationDto createDto(Operation operation, boolean excess) {
-        return new OperationDto(operation.getId(),
-                operation.getMoney(),
-                operation.getDate(),
-                operation.getDescription(),
-                operation.getCategory(),
-                excess,
-                operation.getAccount());
-    }
-
     public static List<OperationDto> getDtoList(List<Operation> operations, Map<ExpenseCategory, Money> limits) {
         Map<OperationCategory, Money> opSumByCategory = operations.stream()
                 .collect(Collectors.toMap(Operation::getCategory, Operation::getMoney, Money::plus));

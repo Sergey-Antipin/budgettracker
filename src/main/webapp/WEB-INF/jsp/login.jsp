@@ -13,16 +13,16 @@
 <body class="d-flex align-items-center py-4 bg-body-tertiary">
 
 <main class="form-signin w-100 m-auto">
-    <form id="login_form" method="post">
+    <form id="loginForm" method="post" action="${contextPath}/auth-check">
         <img class="mb-4" src="${contextPath}/resources/images/logo.svg" alt="" width="72" height="57">
         <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
         <div class="form-floating">
-            <input type="email" class="form-control" id="email" placeholder="name@example.com">
+            <input type="email" class="form-control" id="email" name="username" placeholder="name@example.com">
             <label for="email">Email address</label>
         </div>
         <div class="form-floating">
-            <input type="password" class="form-control" id="password" placeholder="Password">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
             <label for="password">Password</label>
         </div>
 

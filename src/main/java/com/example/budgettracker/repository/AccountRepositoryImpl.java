@@ -18,8 +18,8 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public Account save(Account account, int userId) {
-        account.setUser(em.getReference(User.class, userId));
         if (account.isNew()) {
+            account.setUser(em.getReference(User.class, userId));
             em.persist(account);
             return account;
         }
