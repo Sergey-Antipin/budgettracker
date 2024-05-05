@@ -1,8 +1,8 @@
 package com.example.budgettracker.model;
 
+import com.example.budgettracker.util.validation.Expense;
 import com.example.budgettracker.util.validation.MoneyNegative;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import org.joda.money.Money;
 
 import java.time.LocalDate;
@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @MoneyNegative
 public class ExpenseOperation extends Operation {
 
-    @NotNull
+    @Expense
     @Enumerated(EnumType.STRING)
     @Column(name = "category")
     private ExpenseCategory category;
@@ -20,17 +20,23 @@ public class ExpenseOperation extends Operation {
     public ExpenseOperation() {
     }
 
-    public ExpenseOperation(Integer id, Money amount, LocalDate date, String description, ExpenseCategory category) {
+    public ExpenseOperation(Integer id,
+                            Money amount,
+                            LocalDate date,
+                            String description,
+                            ExpenseCategory category) {
         super(id, amount, date, description);
         this.category = category;
     }
 
     @Override
-    public OperationCategory getCategory() {
+    @SuppressWarnings("unchecked")
+    public ExpenseCategory getCategory() {
         return category;
     }
 
-    public void setCategory(ExpenseCategory category) {
-        this.category = category;
+    @Override
+    public void setCategory(@Expense OperationCategory category) {
+        this.category = (ExpenseCategory) category;
     }
 }

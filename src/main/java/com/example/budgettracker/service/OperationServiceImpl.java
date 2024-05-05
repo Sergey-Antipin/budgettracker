@@ -1,26 +1,40 @@
 package com.example.budgettracker.service;
 
+import com.example.budgettracker.dto.OperationDto;
 import com.example.budgettracker.model.Operation;
 import com.example.budgettracker.repository.OperationRepository;
+import com.example.budgettracker.util.OperationMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.Date;
 import java.util.List;
 
+@Service("operationService")
 public class OperationServiceImpl implements OperationService {
 
-    private OperationRepository repository;
+    private final OperationRepository repository;
+    private final OperationMapper mapper;
 
-    @Override
-    public Operation create(Operation operation, int accountId) {
-        Assert.notNull(operation, "operation must not be null");
-        return repository.save(operation, accountId);
+    @Autowired
+    public OperationServiceImpl(OperationRepository repository, OperationMapper mapper) {
+        this.repository = repository;
+        this.mapper = mapper;
     }
 
     @Override
-    public void update(Operation operation, int accountId) {
-        Assert.notNull(operation, "operation must not be null");
-        repository.save(operation, accountId);
+    public Operation create(OperationDto dto, int accountId) {
+        Assert.notNull(dto, "operation must not be null");
+        Operation newOp = mapper.createFromDto(dto);
+        return repository.save(newOp, accountId);
+    }
+
+    @Override
+    public void update(OperationDto dto, int accountId) {
+        Assert.notNull(dto, "operation must not be null");
+        Operation opToUpdate = get(dto.getId(), accountId);
+        repository.save(mapper.updateFromDto(opToUpdate, dto), accountId);
     }
 
     @Override
@@ -31,6 +45,11 @@ public class OperationServiceImpl implements OperationService {
     @Override
     public Operation get(int id, int accountId) {
         return repository.get(id, accountId);
+    }
+
+    @Override
+    public OperationDto getDto(int id, int accountId, boolean excess) {
+        return mapper.toDto(get(id, accountId), excess);
     }
 
     @Override

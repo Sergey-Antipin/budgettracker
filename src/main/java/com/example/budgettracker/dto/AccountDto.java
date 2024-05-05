@@ -1,5 +1,6 @@
 package com.example.budgettracker.dto;
 
+import jakarta.validation.constraints.NotNull;
 import org.joda.money.Money;
 
 import java.util.Objects;
@@ -8,6 +9,7 @@ public class AccountDto {
 
     private Integer id;
 
+    @NotNull
     private Money balance;
 
     private String description;

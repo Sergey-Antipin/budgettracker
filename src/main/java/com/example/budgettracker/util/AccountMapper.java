@@ -23,7 +23,7 @@ public class AccountMapper {
                 null);
     }
 
-    public Account updateFromDto(AccountDto dto, Account account) {
+    public Account updateFromDto(Account account, AccountDto dto) {
         account.setBalance(dto.getBalance());
         account.setDescription(dto.getDescription());
         return account;

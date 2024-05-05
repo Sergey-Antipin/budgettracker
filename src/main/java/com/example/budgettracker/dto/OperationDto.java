@@ -17,18 +17,18 @@ public class OperationDto {
 
     private String description;
 
-    private OperationCategory operationCategory;
+    private OperationCategory category;
 
     private boolean excess;
 
     private Account account;
 
-    public OperationDto(Integer id, Money money, LocalDate date, String description, OperationCategory operationCategory, boolean excess, Account account) {
+    public OperationDto(Integer id, Money money, LocalDate date, String description, OperationCategory category, boolean excess, Account account) {
         this.id = id;
         this.money = money;
         this.date = date;
         this.description = description;
-        this.operationCategory = operationCategory;
+        this.category = category;
         this.excess = excess;
         this.account = account;
     }
@@ -52,8 +52,8 @@ public class OperationDto {
         return description;
     }
 
-    public OperationCategory getOperationCategory() {
-        return operationCategory;
+    public OperationCategory getCategory() {
+        return category;
     }
 
     public boolean isExcess() {
@@ -80,8 +80,8 @@ public class OperationDto {
         this.description = description;
     }
 
-    public void setOperationCategory(OperationCategory operationCategory) {
-        this.operationCategory = operationCategory;
+    public void setCategory(OperationCategory category) {
+        this.category = category;
     }
 
     public void setExcess(boolean excess) {
@@ -101,12 +101,12 @@ public class OperationDto {
                 Objects.equals(money, that.money) &&
                 Objects.equals(date, that.date) &&
                 Objects.equals(description, that.description) &&
-                Objects.equals(operationCategory, that.operationCategory);
+                Objects.equals(category, that.category);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, money, date, description, operationCategory, excess);
+        return Objects.hash(id, money, date, description, category, excess);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class OperationDto {
                 "amount=" + money +
                 ", date=" + date +
                 ", description='" + description + '\'' +
-                ", operationCategory=" + operationCategory +
+                ", operationCategory=" + category +
                 ", excess=" + excess +
                 '}';
     }

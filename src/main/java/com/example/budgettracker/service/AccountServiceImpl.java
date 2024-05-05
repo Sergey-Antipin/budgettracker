@@ -25,17 +25,17 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account create(AccountDto account, int userId) {
-        Assert.notNull(account, "passed account is null");
-        Account newAccount = mapper.createFromDto(account);
+    public Account create(AccountDto dto, int userId) {
+        Assert.notNull(dto, "passed dto is null");
+        Account newAccount = mapper.createFromDto(dto);
         return repository.save(newAccount, userId);
     }
 
     @Override
-    public void update(AccountDto account, int userId) {
-        Assert.notNull(account, "passed account is null");
-        Account accountToUpdate = get(account.getId(), userId);
-        repository.save(mapper.updateFromDto(account, accountToUpdate), userId);
+    public void update(AccountDto dto, int userId) {
+        Assert.notNull(dto, "passed dto is null");
+        Account accountToUpdate = get(dto.getId(), userId);
+        repository.save(mapper.updateFromDto(accountToUpdate, dto), userId);
     }
 
     @Override

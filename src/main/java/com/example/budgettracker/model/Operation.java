@@ -74,5 +74,7 @@ public abstract class Operation extends AbstractBaseEntity {
         this.account = account;
     }
 
-    public abstract OperationCategory getCategory();
+    public abstract <T extends OperationCategory> T getCategory();
+
+    public abstract <T extends OperationCategory> void setCategory(T category);
 }

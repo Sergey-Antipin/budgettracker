@@ -2,13 +2,11 @@ package com.example.budgettracker.repository;
 
 import com.example.budgettracker.model.Account;
 import com.example.budgettracker.model.Operation;
-import com.example.budgettracker.model.OperationCategory;
 import com.example.budgettracker.util.exception.EntityAccessException;
 import com.example.budgettracker.util.exception.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TemporalType;
-import org.joda.money.Money;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;

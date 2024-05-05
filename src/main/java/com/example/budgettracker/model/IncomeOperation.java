@@ -1,5 +1,6 @@
 package com.example.budgettracker.model;
 
+import com.example.budgettracker.util.validation.Income;
 import com.example.budgettracker.util.validation.MoneyPositive;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -22,16 +23,23 @@ public class IncomeOperation extends Operation {
     public IncomeOperation() {
     }
 
-    public IncomeOperation(Integer id, Money amount, LocalDate date, String description, IncomeCategory category) {
+    public IncomeOperation(Integer id,
+                           Money amount,
+                           LocalDate date,
+                           String description,
+                           IncomeCategory category) {
         super(id, amount, date, description);
         this.category = category;
     }
 
-    public OperationCategory getCategory() {
+    @Override
+    @SuppressWarnings("unchecked")
+    public IncomeCategory getCategory() {
         return category;
     }
 
-    public void setCategory(IncomeCategory category) {
-        this.category = category;
+    @Override
+    public void setCategory(@Income OperationCategory category) {
+        this.category = (IncomeCategory) category;
     }
 }
