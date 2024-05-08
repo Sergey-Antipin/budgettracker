@@ -1,9 +1,9 @@
 package com.example.budgettracker.service;
 
 import com.example.budgettracker.dto.OperationDto;
+import com.example.budgettracker.dto.UserDto;
 import com.example.budgettracker.model.ExpenseCategory;
 import com.example.budgettracker.model.Operation;
-import com.example.budgettracker.model.User;
 import com.example.budgettracker.repository.OperationRepository;
 import com.example.budgettracker.util.OperationMapper;
 import com.example.budgettracker.util.authentication.AuthenticationFacade;
@@ -19,9 +19,9 @@ import java.util.Map;
 @Service("operationService")
 public class OperationServiceImpl implements OperationService {
 
-    private final OperationRepository repository;
-    private final OperationMapper mapper;
-    private final AuthenticationFacade auth;
+    private OperationRepository repository;
+    private OperationMapper mapper;
+    private AuthenticationFacade auth;
 
     @Autowired
     public OperationServiceImpl(OperationRepository repository, OperationMapper mapper, AuthenticationFacade auth) {
@@ -55,15 +55,15 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public List<OperationDto> getAll(int[] accountsId) {
-        User user = auth.getUser();
+    public List<OperationDto> getAll(List<Integer> accountsId) {
+        UserDto user = auth.getUser();
         Map<ExpenseCategory, Money> limits = user.getExpenseLimits();
         return mapper.getDtoList(repository.getAll(accountsId), limits);
     }
 
     @Override
-    public List<OperationDto> getByPeriod(int[] accountsId, Date start, Date end) {
-        User user = auth.getUser();
+    public List<OperationDto> getByPeriod(List<Integer> accountsId, Date start, Date end) {
+        UserDto user = auth.getUser();
         Map<ExpenseCategory, Money> limits = user.getExpenseLimits();
         return mapper.getDtoList(repository.getByPeriod(accountsId, start, end), limits);
     }

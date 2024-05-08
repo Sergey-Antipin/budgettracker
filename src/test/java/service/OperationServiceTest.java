@@ -1,34 +1,33 @@
 package service;
 
-import com.example.budgettracker.model.ExpenseCategory;
-import com.example.budgettracker.service.OperationService;
-import com.example.budgettracker.util.authentication.AuthenticationFacade;
+import com.example.budgettracker.dto.OperationDto;
+import com.example.budgettracker.model.Account;
+import com.example.budgettracker.service.OperationServiceImpl;
+import com.example.budgettracker.util.authentication.AuthenticationFacadeImpl;
 import org.assertj.core.api.Assertions;
-import org.joda.money.Money;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
+import util.TestUtil;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
-@ActiveProfiles("test")
 public class OperationServiceTest extends AbstractServiceTest {
 
     @Autowired
-    private OperationService service;
+    @InjectMocks
+    private OperationServiceImpl service;
 
-    @Autowired
-    private AuthenticationFacade auth;
+    @Mock
+    private AuthenticationFacadeImpl authFacade;
 
+    @Test
     public void getAll() {
-        Map<ExpenseCategory, Money> limits = new HashMap<>();
-
-        /*limits.put(ExpenseCategory.CAR, Money.parse("RUB -5000.00"));
-        int[] accountsId = {100004};
-        Assertions.assertThat(service.getAll(accountsId))
-                .hasSize(4);*/
-        Mockito.when(auth.getUser()).thenReturn()
-        Assertions.assertThat()
+        Mockito.when(authFacade.getUser()).thenReturn(TestUtil.user2dto);
+        List<Integer> accountsId = TestUtil.user2.getAccounts().stream().map(Account::getId).toList();
+        List<OperationDto> ops = service.getAll(accountsId);
+        Assertions.assertThat(ops).hasSize(4);
     }
 }

@@ -20,7 +20,6 @@ public abstract class Operation extends AbstractBaseEntity {
     private Money money;
 
     @NotNull
-    @Temporal(TemporalType.DATE)
     @Column(name = "date")
     private LocalDate date;
 

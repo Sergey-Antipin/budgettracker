@@ -15,5 +15,7 @@ public interface UserService {
 
     UserDto get(int id);
 
+    UserDto getByEmail(String email);
+
     List<UserDto> getAll();
 }

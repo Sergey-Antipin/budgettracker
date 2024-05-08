@@ -61,6 +61,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public UserDto getByEmail(String email) {
+        return mapper.toDto(repository.getByEmail(email));
+    }
+
+    @Override
     public List<UserDto> getAll() {
         return mapper.getDtoList(repository.getAll());
     }

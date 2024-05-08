@@ -15,8 +15,8 @@ import java.util.List;
 @Service("accountService")
 public class AccountServiceImpl implements AccountService {
 
-    private final AccountRepository repository;
-    private final AccountMapper mapper;
+    private AccountRepository repository;
+    private AccountMapper mapper;
 
     @Autowired
     public AccountServiceImpl(AccountRepository repository, AccountMapper mapper) {

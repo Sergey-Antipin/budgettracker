@@ -15,7 +15,7 @@ public interface OperationRepository {
 
     Operation get(int id, int accountId);
 
-    List<Operation> getAll(int[] accountsId);
+    List<Operation> getAll(List<Integer> accountsId);
 
-    List<Operation> getByPeriod(int[] accountsId, Date start, Date end);
+    List<Operation> getByPeriod(List<Integer> accountsId, Date start, Date end);
 }

@@ -51,7 +51,7 @@ public class OperationRepositoryImpl implements OperationRepository {
     }
 
     @Override
-    public List<Operation> getAll(int[] accountsId) {
+    public List<Operation> getAll(List<Integer> accountsId) {
         return em.createQuery("SELECT o FROM Operation o WHERE o.account.id IN (:accountsId) " +
                         "ORDER BY date DESC", Operation.class)
                 .setParameter("accountsId", accountsId)
@@ -59,7 +59,7 @@ public class OperationRepositoryImpl implements OperationRepository {
     }
 
     @Override
-    public List<Operation> getByPeriod(int[] accountsId, Date start, Date end) {
+    public List<Operation> getByPeriod(List<Integer> accountsId, Date start, Date end) {
         return em.createQuery("SELECT o FROM Operation o WHERE o.account.id IN (:accountsId) AND " +
                         "o.date >= :start AND o.date <= :end ORDER BY date DESC", Operation.class)
                 .setParameter("accountsId", accountsId)

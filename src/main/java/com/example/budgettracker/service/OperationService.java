@@ -16,7 +16,7 @@ public interface OperationService {
 
     OperationDto get(int id, int accountId, boolean excess);
 
-    List<OperationDto> getAll(int[] accountsId);
+    List<OperationDto> getAll(List<Integer> accountsId);
 
-    List<OperationDto> getByPeriod(int[] accountsId, Date start, Date end);
+    List<OperationDto> getByPeriod(List<Integer> accountsId, Date start, Date end);
 }

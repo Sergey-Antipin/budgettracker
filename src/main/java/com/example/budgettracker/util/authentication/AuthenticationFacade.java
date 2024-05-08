@@ -1,11 +1,8 @@
 package com.example.budgettracker.util.authentication;
 
-import com.example.budgettracker.model.User;
-import org.springframework.security.core.Authentication;
+import com.example.budgettracker.dto.UserDto;
 
 public interface AuthenticationFacade {
 
-    Authentication getAuthentication();
-
-    User getUser();
+    UserDto getUser();
 }

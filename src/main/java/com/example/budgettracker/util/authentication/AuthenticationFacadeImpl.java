@@ -1,21 +1,32 @@
 package com.example.budgettracker.util.authentication;
 
-import com.example.budgettracker.model.User;
-import org.springframework.security.core.Authentication;
+import com.example.budgettracker.dto.UserDto;
+import com.example.budgettracker.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("authFacade")
 public class AuthenticationFacadeImpl implements AuthenticationFacade {
 
-    @Override
-    public Authentication getAuthentication() {
-        return SecurityContextHolder.getContext().getAuthentication();
+    private UserService userService;
+
+    @Autowired
+    public AuthenticationFacadeImpl(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
-    public User getUser() {
-        return (User) getAuthentication().getPrincipal();
+    public UserDto getUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String name;
+        if (principal instanceof UserDetails) {
+            name = ((UserDetails) principal).getUsername();
+        } else {
+            name = principal.toString();
+        }
+        return userService.getByEmail(name);
     }
 }
 
