@@ -2,7 +2,13 @@ package com.example.budgettracker.util;
 
 import com.example.budgettracker.dto.OperationDto;
 import com.example.budgettracker.model.*;
+import org.joda.money.Money;
 import org.springframework.stereotype.Component;
+
+import java.time.Month;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class OperationMapper {
@@ -34,6 +40,28 @@ public class OperationMapper {
         return operation;
     }
 
+    public List<OperationDto> getDtoList(List<Operation> operations, Map<ExpenseCategory, Money> limits) {
+        Map<OperationCategory, Money> opSumByCategory = operations.stream()
+                .collect(Collectors.toMap(Operation::getCategory, Operation::getMoney, Money::plus));
+        return operations.stream()
+                .map(op -> {
+                    boolean excess = false;
+                    OperationCategory opCat = op.getCategory();
+                    if (opCat.getOperationType().equals(OperationCategory.EXPENSE)) {
+                        @SuppressWarnings("SuspiciousMethodCalls")
+                        Money lim = limits.get(opCat);
+                        if (lim != null) {
+                            excess = opSumByCategory.get(opCat).isLessThan(lim);
+                        }
+                    }
+                    return toDto(op, excess);
+                }).toList();
+        /*return operations.stream()
+                .map(op -> createDTO(op, limits.get(op.getCategory()) != null &&
+                        opSumByCategory.get(op.getCategory()).isLessThan(limits.get(op.getCategory()))))
+                .collect(Collectors.toList());*/
+    }
+
     private interface OperationFactory {
 
         Operation createOperation(OperationDto dto);
@@ -44,9 +72,9 @@ public class OperationMapper {
         @Override
         public Operation createOperation(OperationDto dto) {
             String opType = dto.getCategory().getOperationType();
-            if (opType.equals(ExpenseCategory.OPERATION_TYPE)) {
+            if (opType.equals(OperationCategory.EXPENSE)) {
                 return createExpenseOperation(dto);
-            } else if (opType.equals(IncomeCategory.OPERATION_TYPE)) {
+            } else if (opType.equals(OperationCategory.INCOME)) {
                 return createIncomeOperation(dto);
             } else {
                 throw new RuntimeException("Illegal operation type: " + opType);

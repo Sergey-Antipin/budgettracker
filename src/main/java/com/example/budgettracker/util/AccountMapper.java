@@ -4,6 +4,8 @@ import com.example.budgettracker.dto.AccountDto;
 import com.example.budgettracker.model.Account;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class AccountMapper {
 
@@ -27,5 +29,11 @@ public class AccountMapper {
         account.setBalance(dto.getBalance());
         account.setDescription(dto.getDescription());
         return account;
+    }
+
+    public List<AccountDto> getDtoList(List<Account> accounts) {
+        return accounts.stream()
+                .map(this::toDto)
+                .toList();
     }
 }

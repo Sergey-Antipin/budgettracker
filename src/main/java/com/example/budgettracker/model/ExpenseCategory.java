@@ -17,11 +17,8 @@ public enum ExpenseCategory implements OperationCategory {
     FINANCIAL_OPERATIONS,
     OTHER;
 
-    public final static String OPERATION_TYPE = "expense";
-
-
     @Override
     public String getOperationType() {
-        return OPERATION_TYPE;
+        return OperationCategory.EXPENSE;
     }
 }

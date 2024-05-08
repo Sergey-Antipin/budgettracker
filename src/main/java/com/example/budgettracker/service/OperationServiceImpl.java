@@ -1,26 +1,33 @@
 package com.example.budgettracker.service;
 
 import com.example.budgettracker.dto.OperationDto;
+import com.example.budgettracker.model.ExpenseCategory;
 import com.example.budgettracker.model.Operation;
+import com.example.budgettracker.model.User;
 import com.example.budgettracker.repository.OperationRepository;
 import com.example.budgettracker.util.OperationMapper;
+import com.example.budgettracker.util.authentication.AuthenticationFacade;
+import org.joda.money.Money;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service("operationService")
 public class OperationServiceImpl implements OperationService {
 
     private final OperationRepository repository;
     private final OperationMapper mapper;
+    private final AuthenticationFacade auth;
 
     @Autowired
-    public OperationServiceImpl(OperationRepository repository, OperationMapper mapper) {
+    public OperationServiceImpl(OperationRepository repository, OperationMapper mapper, AuthenticationFacade auth) {
         this.repository = repository;
         this.mapper = mapper;
+        this.auth = auth;
     }
 
     @Override
@@ -33,7 +40,7 @@ public class OperationServiceImpl implements OperationService {
     @Override
     public void update(OperationDto dto, int accountId) {
         Assert.notNull(dto, "operation must not be null");
-        Operation opToUpdate = get(dto.getId(), accountId);
+        Operation opToUpdate = repository.get(dto.getId(), accountId);
         repository.save(mapper.updateFromDto(opToUpdate, dto), accountId);
     }
 
@@ -43,22 +50,21 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public Operation get(int id, int accountId) {
-        return repository.get(id, accountId);
+    public OperationDto get(int id, int accountId, boolean excess) {
+        return mapper.toDto(repository.get(id, accountId), excess);
     }
 
     @Override
-    public OperationDto getDto(int id, int accountId, boolean excess) {
-        return mapper.toDto(get(id, accountId), excess);
+    public List<OperationDto> getAll(int[] accountsId) {
+        User user = auth.getUser();
+        Map<ExpenseCategory, Money> limits = user.getExpenseLimits();
+        return mapper.getDtoList(repository.getAll(accountsId), limits);
     }
 
     @Override
-    public List<Operation> getAll(int accountId) {
-        return repository.getAll(accountId);
-    }
-
-    @Override
-    public List<Operation> getByPeriod(int accountId, Date start, Date end) {
-        return repository.getByPeriod(accountId, start, end);
+    public List<OperationDto> getByPeriod(int[] accountsId, Date start, Date end) {
+        User user = auth.getUser();
+        Map<ExpenseCategory, Money> limits = user.getExpenseLimits();
+        return mapper.getDtoList(repository.getByPeriod(accountsId, start, end), limits);
     }
 }

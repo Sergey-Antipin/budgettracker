@@ -13,9 +13,7 @@ public interface AccountService {
 
     void delete(int id, int userId);
 
-    Account get(int id, int userId);
+    AccountDto get(int id, int userId);
 
-    AccountDto getDto(int id, int userId);
-
-    List<Account> getAll(int userId);
+    List<AccountDto> getAll(int userId);
 }

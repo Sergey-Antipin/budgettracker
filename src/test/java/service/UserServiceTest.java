@@ -4,6 +4,7 @@ import com.example.budgettracker.dto.UserDto;
 import com.example.budgettracker.model.ExpenseCategory;
 import com.example.budgettracker.model.User;
 import com.example.budgettracker.service.UserService;
+import com.example.budgettracker.util.exception.NotFoundException;
 import org.joda.money.Money;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ class UserServiceTest extends AbstractServiceTest {
 
     @Test
     void update() {
-        UserDto userDto = service.getDto(USER1_ID);
+        UserDto userDto = service.get(USER1_ID);
         userDto.getExpenseLimits().put(ExpenseCategory.CLOTHES, Money.parse("USD -1000.00"));
         service.update(userDto);
         assertThat(service.get(USER1_ID).getExpenseLimits())
@@ -41,7 +42,11 @@ class UserServiceTest extends AbstractServiceTest {
     @Test
     void delete() {
         service.delete(USER1_ID);
-        assertThat(service.get(USER1_ID)).isNull();
+        try {
+            service.get(USER1_ID);
+        } catch (Exception e) {
+            assertThat(e).isInstanceOf(NotFoundException.class);
+        }
     }
 
     @Test

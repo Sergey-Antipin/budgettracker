@@ -7,10 +7,9 @@ public enum IncomeCategory implements OperationCategory {
     FINANCIAL_OPERATIONS,
     OTHER;
 
-    public final static String OPERATION_TYPE = "income";
 
     @Override
     public String getOperationType() {
-        return OPERATION_TYPE;
+        return OperationCategory.INCOME;
     }
 }

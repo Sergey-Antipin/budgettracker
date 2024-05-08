@@ -34,7 +34,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void update(AccountDto dto, int userId) {
         Assert.notNull(dto, "passed dto is null");
-        Account accountToUpdate = get(dto.getId(), userId);
+        Account accountToUpdate = repository.get(dto.getId(), userId);
         repository.save(mapper.updateFromDto(accountToUpdate, dto), userId);
     }
 
@@ -48,25 +48,12 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account get(int id, int userId) {
-        Account account = null;
-        try {
-            account = repository.get(id, userId);
-        } catch (EntityAccessException e) {
-            //TODO EntityAccessException handling
-        } catch (NotFoundException e) {
-            //TODO NotFoundException handling
-        }
-        return account;
+    public AccountDto get(int id, int userId) {
+        return mapper.toDto(repository.get(id, userId));
     }
 
     @Override
-    public AccountDto getDto(int id, int userId) {
-        return mapper.toDto(get(id, userId));
-    }
-
-    @Override
-    public List<Account> getAll(int userId) {
-        return repository.getAll(userId);
+    public List<AccountDto> getAll(int userId) {
+        return mapper.getDtoList(repository.getAll(userId));
     }
 }

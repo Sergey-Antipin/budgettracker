@@ -2,6 +2,7 @@ package com.example.budgettracker.dto;
 
 import com.example.budgettracker.model.Account;
 import com.example.budgettracker.model.OperationCategory;
+import jakarta.validation.constraints.NotNull;
 import org.joda.money.Money;
 
 import java.time.LocalDate;
@@ -11,16 +12,20 @@ public class OperationDto {
 
     private Integer id;
 
+    @NotNull
     private Money money;
 
+    @NotNull
     private LocalDate date;
 
     private String description;
 
+    @NotNull
     private OperationCategory category;
 
     private boolean excess;
 
+    @NotNull
     private Account account;
 
     public OperationDto(Integer id, Money money, LocalDate date, String description, OperationCategory category, boolean excess, Account account) {

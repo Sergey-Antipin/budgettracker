@@ -14,11 +14,9 @@ public interface OperationService {
 
     void delete(int id, int accountId);
 
-    Operation get(int id, int accountId);
+    OperationDto get(int id, int accountId, boolean excess);
 
-    OperationDto getDto(int id, int accountId, boolean excess);
+    List<OperationDto> getAll(int[] accountsId);
 
-    List<Operation> getAll(int accountId);
-
-    List<Operation> getByPeriod(int accountId, Date start, Date end);
+    List<OperationDto> getByPeriod(int[] accountsId, Date start, Date end);
 }

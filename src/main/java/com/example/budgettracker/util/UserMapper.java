@@ -47,6 +47,12 @@ public class UserMapper {
         return user;
     }
 
+    public List<UserDto> getDtoList(List<User> users) {
+        return users.stream()
+                .map(this::toDto)
+                .toList();
+    }
+
     public PasswordEncoder getEncoder() {
         return encoder;
     }

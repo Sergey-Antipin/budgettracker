@@ -51,36 +51,20 @@ public class OperationRepositoryImpl implements OperationRepository {
     }
 
     @Override
-    public List<Operation> getAll(int accountId) {
-        return em.createQuery("SELECT o FROM Operation o WHERE o.account.id = :accountId " +
+    public List<Operation> getAll(int[] accountsId) {
+        return em.createQuery("SELECT o FROM Operation o WHERE o.account.id IN (:accountsId) " +
                         "ORDER BY date DESC", Operation.class)
-                .setParameter("accountId", accountId)
+                .setParameter("accountsId", accountsId)
                 .getResultList();
     }
 
     @Override
-    public List<Operation> getByPeriod(int accountId, Date start, Date end) {
-        return em.createQuery("SELECT o FROM Operation o WHERE o.account.id = :accountId AND " +
+    public List<Operation> getByPeriod(int[] accountsId, Date start, Date end) {
+        return em.createQuery("SELECT o FROM Operation o WHERE o.account.id IN (:accountsId) AND " +
                         "o.date >= :start AND o.date <= :end ORDER BY date DESC", Operation.class)
-                .setParameter("accountId", accountId)
+                .setParameter("accountsId", accountsId)
                 .setParameter("start", start, TemporalType.DATE)
                 .setParameter("end", end, TemporalType.DATE)
                 .getResultList();
     }
-
-    /*@Override
-    public List<Operation> getByCategories(int accountId, OperationCategory... categories) {
-        return em.createQuery("SELECT o FROM Operation o WHERE o.account.id = :accountId AND " +
-                " ")
-    }
-
-    @Override
-    public List<Operation> getLessThan(int accountId, Money money) {
-        return List.of();
-    }
-
-    @Override
-    public List<Operation> getGreaterThan(int accountId, Money money) {
-        return List.of();
-    }*/
 }

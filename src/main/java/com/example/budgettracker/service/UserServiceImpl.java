@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     public void update(UserDto user) {
         Assert.notNull(user, "passed used is null");
-        User userToUpdate = get(user.getId());
+        User userToUpdate = repository.get(user.getId());
         repository.save(mapper.updateFromDto(user, userToUpdate));
     }
 
@@ -56,24 +56,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User get(int id) {
-        User user = null;
-        try {
-            user = repository.get(id);
-        } catch (NotFoundException e) {
-            //TODO
-        }
-        return user;
+    public UserDto get(int id) {
+        return mapper.toDto(repository.get(id));
     }
 
     @Override
-    public UserDto getDto(int id) {
-        return mapper.toDto(get(id));
-    }
-
-    @Override
-    public List<User> getAll() {
-        return repository.getAll();
+    public List<UserDto> getAll() {
+        return mapper.getDtoList(repository.getAll());
     }
 
     @Override
