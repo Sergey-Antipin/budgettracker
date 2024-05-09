@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service("operationService")
+@Transactional(readOnly = true)
 public class OperationServiceImpl implements OperationService {
 
     private OperationRepository repository;

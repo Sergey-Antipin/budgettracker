@@ -4,15 +4,12 @@ import com.example.budgettracker.dto.OperationDto;
 import com.example.budgettracker.model.Account;
 import com.example.budgettracker.model.Operation;
 import com.example.budgettracker.service.OperationService;
-import com.example.budgettracker.service.OperationServiceImpl;
 import com.example.budgettracker.util.authentication.AuthenticationFacade;
-import com.example.budgettracker.util.authentication.AuthenticationFacadeImpl;
 import com.example.budgettracker.util.exception.EntityAccessException;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.List;
 
@@ -22,15 +19,11 @@ import static util.TestUtil.*;
 public class OperationServiceTest extends AbstractServiceTest {
 
     @Autowired
-    @InjectMocks
     private OperationService service;
 
-    @Mock
-    private AuthenticationFacade authFacade;
-
     @Test
+    @WithMockUser(username = "user2@mail.ru")
     public void getAll() {
-        Mockito.when(authFacade.getUser()).thenReturn(user2dto);
         List<Integer> accountsId = user2.getAccounts().stream().map(Account::getId).toList();
         List<OperationDto> ops = service.getAll(accountsId);
         assertThat(ops).hasSize(4);
