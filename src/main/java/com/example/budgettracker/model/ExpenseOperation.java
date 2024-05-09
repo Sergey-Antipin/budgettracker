@@ -31,12 +31,12 @@ public class ExpenseOperation extends Operation {
 
     @Override
     @SuppressWarnings("unchecked")
-    public ExpenseCategory getCategory() {
-        return category;
+    public <T extends OperationCategory> T getCategory() {
+        return (T) category;
     }
 
     @Override
-    public void setCategory(@Expense OperationCategory category) {
+    public <T extends OperationCategory> void setCategory(T category) {
         this.category = (ExpenseCategory) category;
     }
 }

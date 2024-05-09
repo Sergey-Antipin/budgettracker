@@ -52,12 +52,4 @@ public class UserMapper {
                 .map(this::toDto)
                 .toList();
     }
-
-    public PasswordEncoder getEncoder() {
-        return encoder;
-    }
-
-    public void setEncoder(PasswordEncoder encoder) {
-        this.encoder = encoder;
-    }
 }

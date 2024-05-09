@@ -8,6 +8,7 @@ import com.example.budgettracker.util.exception.EntityAccessException;
 import com.example.budgettracker.util.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public Account create(AccountDto dto, int userId) {
         Assert.notNull(dto, "passed dto is null");
         Account newAccount = mapper.createFromDto(dto);
@@ -32,6 +34,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public void update(AccountDto dto, int userId) {
         Assert.notNull(dto, "passed dto is null");
         Account accountToUpdate = repository.get(dto.getId(), userId);
@@ -39,6 +42,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public void delete(int id, int userId) {
         try {
             repository.delete(id, userId);

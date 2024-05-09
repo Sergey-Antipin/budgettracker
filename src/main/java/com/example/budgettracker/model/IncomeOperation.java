@@ -2,11 +2,7 @@ package com.example.budgettracker.model;
 
 import com.example.budgettracker.util.validation.Income;
 import com.example.budgettracker.util.validation.MoneyPositive;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.*;
 import org.joda.money.Money;
 
 import java.time.LocalDate;
@@ -16,8 +12,9 @@ import java.time.LocalDate;
 @MoneyPositive
 public class IncomeOperation extends Operation {
 
-    @NotNull
+    @Income
     @Enumerated(EnumType.STRING)
+    @Column(name = "category")
     private IncomeCategory category;
 
     public IncomeOperation() {
@@ -34,12 +31,12 @@ public class IncomeOperation extends Operation {
 
     @Override
     @SuppressWarnings("unchecked")
-    public IncomeCategory getCategory() {
-        return category;
+    public <T extends OperationCategory> T getCategory() {
+        return (T) category;
     }
 
     @Override
-    public void setCategory(@Income OperationCategory category) {
+    public <T extends OperationCategory> void setCategory(T category) {
         this.category = (IncomeCategory) category;
     }
 }

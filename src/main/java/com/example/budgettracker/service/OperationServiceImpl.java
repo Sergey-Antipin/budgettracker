@@ -10,6 +10,7 @@ import com.example.budgettracker.util.authentication.AuthenticationFacade;
 import org.joda.money.Money;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.Date;
@@ -31,6 +32,7 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
+    @Transactional
     public Operation create(OperationDto dto, int accountId) {
         Assert.notNull(dto, "operation must not be null");
         Operation newOp = mapper.createFromDto(dto);
@@ -38,6 +40,7 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
+    @Transactional
     public void update(OperationDto dto, int accountId) {
         Assert.notNull(dto, "operation must not be null");
         Operation opToUpdate = repository.get(dto.getId(), accountId);
@@ -45,13 +48,14 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
+    @Transactional
     public void delete(int id, int accountId) {
         repository.delete(id, accountId);
     }
 
     @Override
-    public OperationDto get(int id, int accountId, boolean excess) {
-        return mapper.toDto(repository.get(id, accountId), excess);
+    public OperationDto get(int id, int accountId) {
+        return mapper.toDto(repository.get(id, accountId), false);
     }
 
     @Override

@@ -14,7 +14,7 @@ public interface OperationService {
 
     void delete(int id, int accountId);
 
-    OperationDto get(int id, int accountId, boolean excess);
+    OperationDto get(int id, int accountId);
 
     List<OperationDto> getAll(List<Integer> accountsId);
 
