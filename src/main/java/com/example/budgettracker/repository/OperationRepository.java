@@ -1,10 +1,8 @@
 package com.example.budgettracker.repository;
 
 import com.example.budgettracker.model.Operation;
-import com.example.budgettracker.model.OperationCategory;
-import org.joda.money.Money;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface OperationRepository {
@@ -17,5 +15,5 @@ public interface OperationRepository {
 
     List<Operation> getAll(List<Integer> accountsId);
 
-    List<Operation> getByPeriod(List<Integer> accountsId, Date start, Date end);
+    List<Operation> getByPeriod(List<Integer> accountsId, LocalDate start, LocalDate end);
 }

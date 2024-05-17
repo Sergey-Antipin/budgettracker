@@ -50,7 +50,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     public User getByEmail(String email) {
-        return (User) em.createQuery("SELECT u FROM User u WHERE u.email = :email")
+        return em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
                 .setParameter("email", email)
                 .getSingleResult();
     }

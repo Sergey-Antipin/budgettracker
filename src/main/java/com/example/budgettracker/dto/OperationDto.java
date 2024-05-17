@@ -1,6 +1,7 @@
 package com.example.budgettracker.dto;
 
 import com.example.budgettracker.model.Account;
+import com.example.budgettracker.model.Operation;
 import com.example.budgettracker.model.OperationCategory;
 import jakarta.validation.constraints.NotNull;
 import org.joda.money.Money;
@@ -36,6 +37,16 @@ public class OperationDto {
         this.category = category;
         this.excess = excess;
         this.account = account;
+    }
+
+    public OperationDto(Operation operation, boolean excess) {
+        this.id = operation.getId();
+        this.money = operation.getMoney();
+        this.date = operation.getDate();
+        this.description = operation.getDescription();
+        this.category = operation.getCategory();
+        this.excess = excess;
+        this.account = operation.getAccount();
     }
 
     public OperationDto() {

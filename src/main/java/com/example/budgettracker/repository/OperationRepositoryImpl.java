@@ -6,10 +6,9 @@ import com.example.budgettracker.util.exception.EntityAccessException;
 import com.example.budgettracker.util.exception.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TemporalType;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -59,12 +58,12 @@ public class OperationRepositoryImpl implements OperationRepository {
     }
 
     @Override
-    public List<Operation> getByPeriod(List<Integer> accountsId, Date start, Date end) {
+    public List<Operation> getByPeriod(List<Integer> accountsId, LocalDate start, LocalDate end) {
         return em.createQuery("SELECT o FROM Operation o WHERE o.account.id IN (:accountsId) AND " +
                         "o.date >= :start AND o.date <= :end ORDER BY date DESC", Operation.class)
                 .setParameter("accountsId", accountsId)
-                .setParameter("start", start, TemporalType.DATE)
-                .setParameter("end", end, TemporalType.DATE)
+                .setParameter("start", start)
+                .setParameter("end", end)
                 .getResultList();
     }
 }

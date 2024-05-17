@@ -30,7 +30,7 @@ public class ProfileController {
         if (errors.hasErrors()) {
             //TODO
         }
-        User created = service.create(userDto);
+        service.create(userDto);
         return "redirect:/profile/login";
     }
 
@@ -39,13 +39,6 @@ public class ProfileController {
         model.addAttribute("newUser", new UserDto());
         return "login";
     }
-
-    /*@PostMapping("/login")
-    public String signIn(@RequestParam String email, @RequestParam String password) {
-        UserDto user = new UserDto(email, password);
-
-        return "accounts";
-    }*/
 
     public UserService getService() {
         return service;

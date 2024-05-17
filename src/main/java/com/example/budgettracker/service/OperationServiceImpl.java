@@ -1,19 +1,20 @@
 package com.example.budgettracker.service;
 
 import com.example.budgettracker.dto.OperationDto;
-import com.example.budgettracker.dto.UserDto;
 import com.example.budgettracker.model.ExpenseCategory;
 import com.example.budgettracker.model.Operation;
+import com.example.budgettracker.model.User;
 import com.example.budgettracker.repository.OperationRepository;
 import com.example.budgettracker.util.OperationMapper;
 import com.example.budgettracker.util.authentication.AuthenticationFacade;
+import com.example.budgettracker.util.exception.NotFoundException;
 import org.joda.money.Money;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -56,19 +57,23 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public OperationDto get(int id, int accountId) {
-        return mapper.toDto(repository.get(id, accountId), false);
+        Operation op = repository.get(id, accountId);
+        if (op == null) {
+            throw new NotFoundException(id);
+        }
+        return mapper.toDto(op, false);
     }
 
     @Override
     public List<OperationDto> getAll(List<Integer> accountsId) {
-        UserDto user = auth.getUser();
+        User user = auth.getUser();
         Map<ExpenseCategory, Money> limits = user.getExpenseLimits();
         return mapper.getDtoList(repository.getAll(accountsId), limits);
     }
 
     @Override
-    public List<OperationDto> getByPeriod(List<Integer> accountsId, Date start, Date end) {
-        UserDto user = auth.getUser();
+    public List<OperationDto> getByPeriod(List<Integer> accountsId, LocalDate start, LocalDate end) {
+        User user = auth.getUser();
         Map<ExpenseCategory, Money> limits = user.getExpenseLimits();
         return mapper.getDtoList(repository.getByPeriod(accountsId, start, end), limits);
     }

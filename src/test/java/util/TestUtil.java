@@ -20,6 +20,10 @@ public class TestUtil {
     public static Operation op2 = new IncomeOperation(100013, Money.parse("RUB 30000.00"), LocalDate.parse("2024-02-18"), "снятие наличных", IncomeCategory.FINANCIAL_OPERATIONS);
     public static Operation op3 = new ExpenseOperation(100014, Money.parse("RUB -9000.00"), LocalDate.parse("2024-03-08"), "подарки", ExpenseCategory.GIFTS);
     public static Operation op4 = new ExpenseOperation(100015, Money.parse("RUB -2000.00"), LocalDate.parse("2024-03-09"), "еще подарки", ExpenseCategory.GIFTS);
+    public static OperationDto op1dto = new OperationDto(op1, false);
+    public static OperationDto op2dto = new OperationDto(op2, false);
+    public static OperationDto op3dto = new OperationDto(op3, true);
+    public static OperationDto op4dto = new OperationDto(op4, true);
     public static Operation op5 = new ExpenseOperation(100008, Money.parse("RUB -5000.00"), LocalDate.parse("2024-02-02"), null, ExpenseCategory.GROCERIES);
     public static Account user2bankAccount = new Account(100005, Money.parse("RUB 50000.00"), "user2 bank account", new ArrayList<>());
     public static Account user2cashAccount = new Account(100006, Money.parse("RUB 30000.00"), "user2 cash account", new ArrayList<>());
@@ -29,6 +33,7 @@ public class TestUtil {
     public static UserDto user1dto = new UserDto(100001, "user1@mail.ru", "user1password", new HashMap<>());
     public static UserDto user2dto = new UserDto(100002, "user2@mail.ru", "user2password", new HashMap<>());
     public static OperationDto newOp = new OperationDto(null, Money.parse("RUB -1250.00"), LocalDate.parse("2024-05-09"), "продукты", ExpenseCategory.GROCERIES, false, user2bankAccount);
+
     static {
         op1.setAccount(user2bankAccount);
         op2.setAccount(user2cashAccount);

@@ -5,10 +5,10 @@
 <jsp:include page="fragments/header.jsp"/>
 <head>
     <title>Accounts</title>
-    <script src="webjars/jquery/3.7.1/jquery.min.js"></script>
-    <script src="webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
-    <script src="webjars/datatables/1.13.5/js/jquery.dataTables.min.js"></script>
-    <script src="webjars/datatables/1.13.5/css/dataTables.bootstrap5.min.css"></script>
+    <script src="webjars/jquery/jquery.min.js"></script>
+    <script src="webjars/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="webjars/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="webjars/datatables/css/dataTables.bootstrap5.min.css"></script>
 </head>
 <body>
 <div class="container">
@@ -31,15 +31,17 @@
     <table id="operations-table" class="table table-striped table-bordered">
         <thead>
         <tr>
-            <th>Account</th>
             <th>Date</th>
             <th>Money</th>
             <th>Category</th>
             <th>Description</th>
+            <th>Account</th>
         </tr>
         </thead>
         <tbody>
-        <!-- Table body content will be populated dynamically -->
+        <tr>
+            <td></td>
+        </tr>
         </tbody>
     </table>
 </div>

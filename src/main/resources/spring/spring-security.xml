@@ -21,7 +21,7 @@
         <security:intercept-url pattern="/**" access="isAuthenticated()"/>
         <security:intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
 
-        <security:form-login login-page="/profile/login" default-target-url="/accounts"
+        <security:form-login login-page="/profile/login" default-target-url="/dashboard"
         authentication-failure-url="/profile/login?error=true" login-processing-url="/auth-check"/>
         <security:logout logout-success-url="/profile/login" delete-cookies="JSESSIONID"/>
         <security:csrf disabled="true"/>
