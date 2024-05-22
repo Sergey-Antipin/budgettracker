@@ -1,5 +1,7 @@
 package com.example.budgettracker.dto;
 
+import com.example.budgettracker.model.Account;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.joda.money.Money;
 
@@ -12,12 +14,19 @@ public class AccountDto {
     @NotNull
     private Money balance;
 
+    @NotBlank
     private String description;
 
     public AccountDto(Integer id, Money balance, String description) {
         this.id = id;
         this.balance = balance;
         this.description = description;
+    }
+
+    public AccountDto(Account account) {
+        this.id = account.getId();
+        this.balance = account.getBalance();
+        this.description = account.getDescription();
     }
 
     public AccountDto() {

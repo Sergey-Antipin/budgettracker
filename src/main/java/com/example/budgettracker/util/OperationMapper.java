@@ -5,6 +5,7 @@ import com.example.budgettracker.model.*;
 import org.joda.money.Money;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -24,7 +25,7 @@ public class OperationMapper {
                 operation.getDescription(),
                 operation.getCategory(),
                 excess,
-                operation.getAccount());
+                operation.getAccount().getId());
     }
 
     public Operation createFromDto(OperationDto dto) {
@@ -59,6 +60,18 @@ public class OperationMapper {
                 .map(op -> createDTO(op, limits.get(op.getCategory()) != null &&
                         opSumByCategory.get(op.getCategory()).isLessThan(limits.get(op.getCategory()))))
                 .collect(Collectors.toList());*/
+    }
+
+    public OperationDto createDto(Money money, LocalDate date, String description, String opType, String category, int accountId) {
+        OperationCategory cat;
+        if (opType.equals(OperationCategory.EXPENSE)) {
+            cat = ExpenseCategory.valueOf(category);
+        } else if (opType.equals(OperationCategory.INCOME)) {
+            cat = IncomeCategory.valueOf(category);
+        } else {
+            throw new RuntimeException("Illegal operation type: " + opType);
+        }
+        return new OperationDto(null, money, date, description, cat, false, accountId);
     }
 
     private interface OperationFactory {

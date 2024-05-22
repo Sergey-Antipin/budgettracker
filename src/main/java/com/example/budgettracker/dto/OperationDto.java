@@ -1,6 +1,5 @@
 package com.example.budgettracker.dto;
 
-import com.example.budgettracker.model.Account;
 import com.example.budgettracker.model.Operation;
 import com.example.budgettracker.model.OperationCategory;
 import jakarta.validation.constraints.NotNull;
@@ -27,16 +26,16 @@ public class OperationDto {
     private boolean excess;
 
     @NotNull
-    private Account account;
+    private int accountId;
 
-    public OperationDto(Integer id, Money money, LocalDate date, String description, OperationCategory category, boolean excess, Account account) {
+    public OperationDto(Integer id, Money money, LocalDate date, String description, OperationCategory category, boolean excess, int accountId) {
         this.id = id;
         this.money = money;
         this.date = date;
         this.description = description;
         this.category = category;
         this.excess = excess;
-        this.account = account;
+        this.accountId = accountId;
     }
 
     public OperationDto(Operation operation, boolean excess) {
@@ -46,7 +45,7 @@ public class OperationDto {
         this.description = operation.getDescription();
         this.category = operation.getCategory();
         this.excess = excess;
-        this.account = operation.getAccount();
+        this.accountId = operation.getAccount().getId();
     }
 
     public OperationDto() {
@@ -76,8 +75,8 @@ public class OperationDto {
         return excess;
     }
 
-    public Account getAccount() {
-        return account;
+    public int getAccountId() {
+        return accountId;
     }
 
     public void setId(Integer id) {
@@ -104,8 +103,8 @@ public class OperationDto {
         this.excess = excess;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
     }
 
     @Override

@@ -26,11 +26,11 @@ public class ProfileController {
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute("newUser") @Valid UserDto userDto, HttpServletRequest request, Errors errors) {
+    public String register(@ModelAttribute("newUser") @Valid UserDto newUser, HttpServletRequest request, Errors errors) {
         if (errors.hasErrors()) {
             //TODO
         }
-        service.create(userDto);
+        service.create(newUser);
         return "redirect:/profile/login";
     }
 
